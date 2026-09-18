@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Experience {
+  id        Int      @id @default(autoincrement())
+  period    String
+  duration  String
+  company   String
+  role      String
+  desc      String   @db.Text
+  tags      String   @db.Text
+  isCurrent Boolean  @default(false)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id        Int      @id @default(autoincrement())
+  title     String
+  client    String
+  period    String
+  desc      String   @db.Text
+  role      String
+  tags      String   @db.Text
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Skill {
+  id         Int     @id @default(autoincrement())
+  category   String
+  items      String  @db.Text
+  isLearning Boolean @default(false)
+  order      Int     @default(0)
+}
+
+model Certification {
+  id    Int    @id @default(autoincrement())
+  name  String
+  org   String
+  year  String
+  order Int    @default(0)
+}
