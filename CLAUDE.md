@@ -13,7 +13,9 @@
 
 Next.js 16 (App Router) · TypeScript · Tailwind v4 · Prisma 6 · PostgreSQL · NextAuth v4 (Credentials, JWT, bcrypt)
 
-- 공개 페이지: `app/page.tsx`(서버 컴포넌트, DB 조회) → `app/HomeClient.tsx`(렌더링)
+- 공개 페이지: `app/(site)/` 아래 `/`(홈), `/about`, `/career`, `/projects`, `/projects/[id]`. DB 조회는 `lib/portfolio.ts`, 공통 컴포넌트는 `app/components/`
+- 공개 페이지는 빌드 때 정적으로 만들어진다. 관리자 API는 저장 후 `revalidatePath("/", "layout")`으로 전체를 갱신하므로, 새 관리자 API를 만들면 이 호출을 꼭 넣는다
+- 스크롤 등장 효과는 `Reveal` 컴포넌트 + `globals.css`의 `[data-reveal]`. `card-lift`(호버)와 같은 요소에 두면 transition이 충돌하니 감싸서 쓴다
 - 관리자: `/admin/login`, `app/admin/(protected)/*`, API는 `app/api/admin/*` (세션 필수)
 - `tags`, `items`는 DB에 JSON 문자열로 저장하고 읽을 때 `JSON.parse`
 - 프로젝트 대표 이미지: `public/projects/*.jpg`(1200×675), DB `Project.image`에 `/projects/파일명.jpg`로 저장. 없으면 카드에 기본 헤더가 나온다

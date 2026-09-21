@@ -23,7 +23,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       order: body.order ?? 0,
     },
   });
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   return NextResponse.json(item);
 }
 
@@ -32,6 +32,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (auth) return auth;
   const { id } = await params;
   await prisma.skill.delete({ where: { id: Number(id) } });
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   return NextResponse.json({ ok: true });
 }

@@ -6,6 +6,7 @@ type Project = {
   id: number;
   title: string;
   client: string;
+  org: string;
   period: string;
   desc: string;
   role: string;
@@ -15,7 +16,7 @@ type Project = {
 };
 
 const EMPTY: Omit<Project, "id"> = {
-  title: "", client: "", period: "", desc: "", role: "", image: "", tags: "", order: 0,
+  title: "", client: "", org: "", period: "", desc: "", role: "", image: "", tags: "", order: 0,
 };
 
 export default function ProjectsAdmin() {
@@ -41,7 +42,7 @@ export default function ProjectsAdmin() {
 
   function openEdit(item: Project) {
     setEditing(item);
-    setForm({ title: item.title, client: item.client, period: item.period, desc: item.desc, role: item.role, image: item.image, tags: item.tags, order: item.order });
+    setForm({ title: item.title, client: item.client, org: item.org, period: item.period, desc: item.desc, role: item.role, image: item.image, tags: item.tags, order: item.order });
     setIsNew(false);
   }
 
@@ -84,6 +85,7 @@ export default function ProjectsAdmin() {
           <div className="grid md:grid-cols-2 gap-4">
             <Field label="프로젝트명" value={form.title} onChange={(v) => setForm({ ...form, title: v })} />
             <Field label="클라이언트" value={form.client} onChange={(v) => setForm({ ...form, client: v })} />
+            <Field label="소속 (같은 값끼리 홈페이지에서 묶임)" value={form.org} onChange={(v) => setForm({ ...form, org: v })} />
             <Field label="기간" value={form.period} onChange={(v) => setForm({ ...form, period: v })} />
             <Field label="역할" value={form.role} onChange={(v) => setForm({ ...form, role: v })} />
             <Field label="태그 (쉼표 구분)" value={form.tags} onChange={(v) => setForm({ ...form, tags: v })} />
@@ -122,7 +124,7 @@ export default function ProjectsAdmin() {
             )}
             <div className="flex-1 min-w-0">
               <p className="font-medium text-sm truncate" style={{ color: "var(--foreground)" }}>{item.title}</p>
-              <p className="text-xs mt-0.5" style={{ color: "var(--accent)" }}>{item.client} · {item.period}</p>
+              <p className="text-xs mt-0.5" style={{ color: "var(--accent)" }}>{item.org ? `[${item.org}] ` : ""}{item.client} · {item.period}</p>
               <p className="text-xs mt-1 line-clamp-2" style={{ color: "var(--muted)" }}>{item.desc}</p>
             </div>
             <div className="flex gap-2 flex-shrink-0">

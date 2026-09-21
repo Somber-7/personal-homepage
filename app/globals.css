@@ -49,3 +49,115 @@ body {
 section {
   scroll-margin-top: 64px;
 }
+
+/* ── 애니메이션 ─────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 페이지 전환: app/(site)/template.tsx */
+.page-enter {
+  animation: fade-up 0.5s ease-out both;
+}
+
+/* 페이지 첫 화면 요소가 순서대로 떠오름. 지연은 --d로 준다 */
+.hero-in {
+  animation: fade-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* 홈 첫 화면: 깜빡이는 커서와 천천히 움직이는 빛 */
+@keyframes blink {
+  50% { opacity: 0; }
+}
+.caret {
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes glow-drift {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-44%, -56%) scale(1.12); }
+}
+.hero-glow {
+  transform: translate(-50%, -50%);
+  animation: glow-drift 14s ease-in-out infinite;
+}
+
+/* 스크롤해서 화면에 들어오면 나타남: app/components/Reveal.tsx.
+   JS가 없는 환경에서는 숨기지 않는다 */
+@media (scripting: enabled) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .timeline-line {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s;
+  }
+  .is-in > .timeline-line {
+    transform: scaleY(1);
+  }
+}
+
+/* 카드 호버 */
+.card-lift {
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* 상단 메뉴 밑줄 */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link[data-active]::after {
+  transform: scaleX(1);
+}
+
+/* 움직임 줄이기 설정을 켠 사용자에게는 효과를 끈다 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+  [data-reveal] {
+    transform: none !important;
+  }
+  .card-lift:hover {
+    transform: none;
+  }
+}

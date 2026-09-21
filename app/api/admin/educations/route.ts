@@ -31,6 +31,6 @@ export async function POST(req: NextRequest) {
       order: body.order ?? 0,
     },
   });
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   return NextResponse.json(item, { status: 201 });
 }
