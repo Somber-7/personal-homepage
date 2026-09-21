@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import { getCertifications, getEducations, getExperiences, getProjects, getSkills, groupByOrg, type Project } from "@/lib/portfolio";
 import Reveal from "../components/Reveal";
 import CountUp from "../components/CountUp";
-import ProjectCard, { ProjectCover } from "../components/ProjectCard";
+import { ProjectCover } from "../components/ProjectCard";
 import { SectionTitle, Tag } from "../components/ui";
 
 // 홈은 한 화면(data-screen)씩 넘어간다: app/components/FullPage.tsx
@@ -108,7 +108,7 @@ export default async function Home() {
       </section>
 
       {/* 4. 대표 프로젝트 */}
-      <section className="screen pt-20 pb-10 px-6" data-screen="대표 프로젝트" style={{ background: "var(--surface)" }}>
+      <section className="screen py-24 px-6" data-screen="대표 프로젝트" style={{ background: "var(--surface)" }}>
         <div className="max-w-5xl mx-auto w-full">
           <div className="flex items-end justify-between gap-4 flex-wrap">
             <SectionTitle label="FEATURED" title="대표 프로젝트" desc="AI 캠프, 공공 SI, 웹에이전시에서 한 일을 하나씩 골랐습니다." />
@@ -123,10 +123,10 @@ export default async function Home() {
               <FeaturedLead project={lead} />
             </Reveal>
           )}
-          <div className="grid md:grid-cols-2 gap-5 mt-5">
+          <div className="grid md:grid-cols-2 gap-4 mt-4">
             {rest.map((p, i) => (
               <Reveal key={p.id} delay={200 + i * 100} className="h-full">
-                <ProjectCard project={p} onSurface />
+                <FeaturedMini project={p} />
               </Reveal>
             ))}
           </div>
@@ -197,20 +197,43 @@ function FeaturedLead({ project }: { project: Project }) {
       className="card-lift group grid md:grid-cols-[1.15fr_1fr] rounded-2xl overflow-hidden"
       style={{ background: "var(--background)", border: "1px solid var(--border)" }}
     >
-      <div className="aspect-video md:aspect-auto md:min-h-[220px] overflow-hidden" style={{ background: "var(--surface2)" }}>
+      <div className="aspect-video md:aspect-auto md:h-[250px] overflow-hidden" style={{ background: "var(--surface2)" }}>
         <ProjectCover project={project} large />
       </div>
-      <div className="p-7 flex flex-col gap-3">
+      <div className="p-6 flex flex-col gap-2.5">
         <span className="text-xs font-mono" style={{ color: "var(--accent-green)" }}>{project.org}</span>
         <h3 className="text-xl font-bold leading-snug transition-colors group-hover:text-[var(--accent)]" style={{ color: "var(--foreground)" }}>
           {project.title}
         </h3>
         <p className="text-xs font-mono" style={{ color: "var(--accent)" }}>{[project.client, project.period].filter(Boolean).join(" · ")}</p>
-        <p className="text-sm leading-relaxed line-clamp-3" style={{ color: "var(--muted)" }}>{project.desc}</p>
+        <p className="text-sm leading-relaxed line-clamp-2" style={{ color: "var(--muted)" }}>{project.desc}</p>
         <div className="flex flex-wrap gap-1.5 mt-auto">
-          {project.tags.slice(0, 5).map((t) => <Tag key={t}>{t}</Tag>)}
+          {project.tags.slice(0, 4).map((t) => <Tag key={t}>{t}</Tag>)}
         </div>
       </div>
+    </Link>
+  );
+}
+
+// 대표 프로젝트 나머지: 작은 썸네일 + 제목만 (자세한 내용은 프로젝트 페이지에서)
+function FeaturedMini({ project }: { project: Project }) {
+  return (
+    <Link
+      href={`/projects/${project.id}`}
+      className="card-lift group h-full flex items-center gap-4 p-3 rounded-xl"
+      style={{ background: "var(--background)", border: "1px solid var(--border)" }}
+    >
+      <div className="w-36 aspect-video flex-shrink-0 overflow-hidden rounded-lg" style={{ background: "var(--surface2)" }}>
+        <ProjectCover project={project} small />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="text-xs font-mono" style={{ color: "var(--accent-green)" }}>{project.org}</p>
+        <h3 className="mt-1 text-sm font-semibold leading-snug line-clamp-2 transition-colors group-hover:text-[var(--accent)]" style={{ color: "var(--foreground)" }}>
+          {project.title}
+        </h3>
+        <p className="mt-1 text-xs font-mono truncate" style={{ color: "var(--muted)" }}>{[project.client, project.period].filter(Boolean).join(" · ")}</p>
+      </div>
+      <span className="pr-2 transition-transform duration-300 group-hover:translate-x-1" style={{ color: "var(--accent)" }}>→</span>
     </Link>
   );
 }
