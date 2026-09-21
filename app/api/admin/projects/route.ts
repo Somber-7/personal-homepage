@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/prisma";
 
@@ -31,5 +32,6 @@ export async function POST(req: NextRequest) {
       order: body.order ?? 0,
     },
   });
+  revalidatePath("/");
   return NextResponse.json(item, { status: 201 });
 }

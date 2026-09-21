@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/prisma";
 
@@ -22,6 +23,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       order: body.order ?? 0,
     },
   });
+  revalidatePath("/");
   return NextResponse.json(item);
 }
 
@@ -30,5 +32,6 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (auth) return auth;
   const { id } = await params;
   await prisma.certification.delete({ where: { id: Number(id) } });
+  revalidatePath("/");
   return NextResponse.json({ ok: true });
 }
