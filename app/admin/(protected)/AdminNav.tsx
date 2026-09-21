@@ -20,7 +20,7 @@ export default function AdminNav() {
     <header
       className="sticky top-0 z-50"
       style={{
-        background: "rgba(13,17,23,0.95)",
+        background: "rgba(255,255,255,0.95)",
         borderBottom: "1px solid var(--border)",
         backdropFilter: "blur(12px)",
       }}

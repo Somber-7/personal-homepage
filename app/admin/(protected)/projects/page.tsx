@@ -9,6 +9,9 @@ type Project = {
   org: string;
   period: string;
   desc: string;
+  work: string;
+  solution: string;
+  result: string;
   role: string;
   image: string;
   link: string;
@@ -17,7 +20,7 @@ type Project = {
 };
 
 const EMPTY: Omit<Project, "id"> = {
-  title: "", client: "", org: "", period: "", desc: "", role: "", image: "", link: "", tags: "", order: 0,
+  title: "", client: "", org: "", period: "", desc: "", work: "", solution: "", result: "", role: "", image: "", link: "", tags: "", order: 0,
 };
 
 export default function ProjectsAdmin() {
@@ -43,7 +46,7 @@ export default function ProjectsAdmin() {
 
   function openEdit(item: Project) {
     setEditing(item);
-    setForm({ title: item.title, client: item.client, org: item.org, period: item.period, desc: item.desc, role: item.role, image: item.image, link: item.link, tags: item.tags, order: item.order });
+    setForm({ title: item.title, client: item.client, org: item.org, period: item.period, desc: item.desc, work: item.work ?? "", solution: item.solution ?? "", result: item.result ?? "", role: item.role, image: item.image, link: item.link, tags: item.tags, order: item.order });
     setIsNew(false);
   }
 
@@ -72,7 +75,7 @@ export default function ProjectsAdmin() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold" style={{ color: "var(--foreground)" }}>프로젝트 관리</h1>
-        <button onClick={openNew} className="px-4 py-2 rounded-lg text-sm font-medium" style={{ background: "var(--accent)", color: "#0d1117" }}>
+        <button onClick={openNew} className="px-4 py-2 rounded-lg text-sm font-medium" style={{ background: "var(--accent)", color: "#fff" }}>
           + 추가
         </button>
       </div>
@@ -100,11 +103,23 @@ export default function ProjectsAdmin() {
               )}
             </div>
             <div className="md:col-span-2">
-              <Field label="설명" value={form.desc} onChange={(v) => setForm({ ...form, desc: v })} multiline />
+              <Field label="개요" value={form.desc} onChange={(v) => setForm({ ...form, desc: v })} multiline />
+            </div>
+            <p className="md:col-span-2 text-xs" style={{ color: "var(--muted)" }}>
+              아래 세 칸은 상세 페이지에 나옵니다. 한 줄에 하나씩 쓰고, &quot;라벨: 내용&quot;으로 쓰면 라벨이 굵게 나옵니다. 비우면 &apos;준비 중&apos;으로 표시됩니다.
+            </p>
+            <div className="md:col-span-2">
+              <Field label="맡은 일" value={form.work} onChange={(v) => setForm({ ...form, work: v })} multiline />
+            </div>
+            <div className="md:col-span-2">
+              <Field label="구현과 문제 해결" value={form.solution} onChange={(v) => setForm({ ...form, solution: v })} multiline />
+            </div>
+            <div className="md:col-span-2">
+              <Field label="결과" value={form.result} onChange={(v) => setForm({ ...form, result: v })} multiline />
             </div>
           </div>
           <div className="flex gap-3 mt-4">
-            <button onClick={save} disabled={loading} className="px-5 py-2 rounded-lg text-sm font-medium hover:opacity-80" style={{ background: "var(--accent)", color: "#0d1117" }}>
+            <button onClick={save} disabled={loading} className="px-5 py-2 rounded-lg text-sm font-medium hover:opacity-80" style={{ background: "var(--accent)", color: "#fff" }}>
               {loading ? "저장 중..." : "저장"}
             </button>
             <button onClick={closeForm} className="px-5 py-2 rounded-lg text-sm" style={{ border: "1px solid var(--border)", color: "var(--muted)" }}>
@@ -131,7 +146,7 @@ export default function ProjectsAdmin() {
             </div>
             <div className="flex gap-2 flex-shrink-0">
               <button onClick={() => openEdit(item)} className="px-3 py-1.5 rounded text-xs" style={{ border: "1px solid var(--border)", color: "var(--muted)" }}>수정</button>
-              <button onClick={() => remove(item.id)} className="px-3 py-1.5 rounded text-xs" style={{ border: "1px solid #f85149", color: "#f85149" }}>삭제</button>
+              <button onClick={() => remove(item.id)} className="px-3 py-1.5 rounded text-xs" style={{ border: "1px solid #b42318", color: "#b42318" }}>삭제</button>
             </div>
           </div>
         ))}

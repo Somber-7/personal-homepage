@@ -1,40 +1,35 @@
-import Reveal from "./Reveal";
+import { PROFILE } from "@/lib/profile";
 
 // 모든 공개 페이지 하단에 붙는 연락처
 export default function SiteFooter() {
+  const links = [
+    { href: `mailto:${PROFILE.email}`, label: "이메일", value: PROFILE.email },
+    { href: `tel:${PROFILE.phone}`, label: "전화", value: PROFILE.phone },
+    { href: PROFILE.github, label: "GitHub", value: PROFILE.github.replace("https://", "") },
+    { href: PROFILE.pdf, label: "경력기술서", value: "PDF 받기" },
+  ];
   return (
-    <footer id="contact" className="px-6 pt-20 pb-8" style={{ borderTop: "1px solid var(--border)" }}>
-      <div className="max-w-5xl mx-auto text-center">
-        <Reveal>
-          <span className="text-xs font-mono tracking-widest" style={{ color: "var(--accent)" }}>CONTACT ──</span>
-          <h2 className="text-2xl md:text-3xl font-bold mt-2" style={{ color: "var(--foreground)" }}>연락처</h2>
-          <p className="mt-3 text-sm" style={{ color: "var(--muted)" }}>새로운 기회나 협업 제안을 환영합니다.</p>
-        </Reveal>
-        <Reveal delay={120} className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="mailto:true_j@naver.com"
-            className="card-lift flex items-center justify-center gap-3 px-6 py-4 rounded-xl"
-            style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
-          >
-            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" style={{ color: "var(--accent)" }}>
-              <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5z" stroke="currentColor" strokeWidth="1.5" />
-              <path d="M2 5l8 6 8-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-            <span className="text-sm font-mono" style={{ color: "var(--foreground)" }}>true_j@naver.com</span>
-          </a>
-          <a
-            href="tel:010-5024-7939"
-            className="card-lift flex items-center justify-center gap-3 px-6 py-4 rounded-xl"
-            style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
-          >
-            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" style={{ color: "var(--accent)" }}>
-              <path d="M3 4a1 1 0 011-1h2.5a1 1 0 01.97.757l.7 2.8a1 1 0 01-.274 1.002L6.6 8.6a11.04 11.04 0 004.8 4.8l1.04-1.296a1 1 0 011.003-.274l2.8.7A1 1 0 0117 13.5V16a1 1 0 01-1 1h-1C7.163 17 3 12.837 3 8V4z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-            <span className="text-sm font-mono" style={{ color: "var(--foreground)" }}>010-5024-7939</span>
-          </a>
-        </Reveal>
-        <p className="mt-16 text-xs font-mono" style={{ color: "var(--muted)" }}>
-          © 2026 임준 · Built with Next.js & Tailwind CSS
+    <footer id="contact" className="px-6 pt-20 pb-10" style={{ background: "var(--foreground)", color: "var(--background)" }}>
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-bold">연락처</h2>
+        <dl className="mt-10 flex flex-col sm:flex-row sm:flex-wrap gap-6 sm:gap-x-14">
+          {links.map((l) => (
+            <div key={l.href}>
+              <dt className="text-sm" style={{ color: "#a8a8a2" }}>{l.label}</dt>
+              <dd className="mt-1">
+                <a
+                  href={l.href}
+                  {...(l.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  {...(l.href === PROFILE.pdf ? { download: PROFILE.pdfName } : {})}
+                  className="text-xl underline decoration-1 underline-offset-4 transition-colors hover:text-[#f0a37a]" style={{ textDecorationColor: "#62625d" }}>
+                  {l.value}
+                </a>
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <p className="mt-16 text-xs" style={{ color: "#8a8a84" }}>
+          © 2026 임준
         </p>
       </div>
     </footer>

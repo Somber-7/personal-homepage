@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProjects } from "@/lib/portfolio";
-import Reveal from "../../../components/Reveal";
+import Bullets from "../../../components/Bullets";
 import { ProjectCover } from "../../../components/ProjectCard";
 import { Tag } from "../../../components/ui";
 
@@ -44,6 +44,13 @@ export default async function ProjectDetailPage({ params }: Params) {
     { label: "역할", value: project.role },
   ].filter((f) => f.value);
 
+  // 상세 칸. 비어 있으면 자리만 두고 '준비 중'으로 표시한다
+  const details = [
+    { title: "맡은 일", text: project.work },
+    { title: "구현과 문제 해결", text: project.solution },
+    { title: "결과", text: project.result },
+  ];
+
   return (
     <article className="px-6 pt-28 pb-24">
       <div className="max-w-5xl mx-auto">
@@ -52,13 +59,13 @@ export default async function ProjectDetailPage({ params }: Params) {
         </Link>
 
         <div className="mt-6">
-          <span className="hero-in inline-block text-xs font-mono px-2.5 py-1 rounded-full" style={{ background: "rgba(63,185,80,0.12)", color: "var(--accent-green)", border: "1px solid rgba(63,185,80,0.3)", ...d(60) }}>
+          <p className="hero-in text-sm" style={{ color: "var(--accent)", ...d(60) }}>
             {project.org || "기타"}
-          </span>
-          <h1 className="hero-in text-3xl md:text-4xl font-bold mt-4 tracking-tight leading-tight" style={{ color: "var(--foreground)", ...d(120) }}>
+          </p>
+          <h1 className="hero-in text-3xl md:text-5xl font-bold mt-3 leading-tight" style={{ color: "var(--foreground)", ...d(120) }}>
             {project.title}
           </h1>
-          <p className="hero-in mt-3 text-sm font-mono" style={{ color: "var(--accent)", ...d(180) }}>
+          <p className="hero-in mt-4 text-base" style={{ color: "var(--muted)", ...d(180) }}>
             {[project.client, project.period].filter(Boolean).join(" · ")}
           </p>
           {project.link && (
@@ -66,33 +73,45 @@ export default async function ProjectDetailPage({ params }: Params) {
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="hero-in group mt-5 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5"
-              style={{ background: "var(--accent)", color: "#0d1117", ...d(220) }}
+              className="hero-in group mt-6 inline-flex items-center gap-1.5 px-5 py-2.5 rounded-md text-sm font-medium transition-opacity duration-200 hover:opacity-85"
+              style={{ background: "var(--foreground)", color: "var(--background)", ...d(220) }}
             >
               사이트 방문 <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
             </a>
           )}
         </div>
 
-        <div className={`hero-in group mt-10 overflow-hidden rounded-2xl ${project.image ? "aspect-video" : "h-40 md:h-48"}`} style={{ border: "1px solid var(--border)", background: "var(--surface2)", ...d(260) }}>
+        <div className={`hero-in mt-10 overflow-hidden rounded-lg ${project.image ? "aspect-video" : "h-40 md:h-48"}`} style={{ border: "1px solid var(--border)", background: "var(--surface2)", ...d(260) }}>
           <ProjectCover project={project} large />
         </div>
 
         <div className="mt-14 grid md:grid-cols-[1fr_280px] gap-12">
-          <Reveal>
-            <h2 className="text-xs font-mono tracking-widest mb-4" style={{ color: "var(--accent)" }}>OVERVIEW ──</h2>
-            <p className="text-base leading-loose whitespace-pre-line" style={{ color: "var(--foreground)" }}>{project.desc}</p>
-          </Reveal>
-          <Reveal delay={120}>
-            <dl className="p-6 rounded-xl space-y-5" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
+          <div className="space-y-12">
+            <section>
+              <h2 className="text-2xl font-bold mb-4" style={{ color: "var(--foreground)" }}>개요</h2>
+              <p className="text-lg leading-loose whitespace-pre-line" style={{ color: "var(--foreground)" }}>{project.desc}</p>
+            </section>
+            {details.map((s) => (
+              <section key={s.title}>
+                <h2 className="text-xl font-bold pb-3 mb-4" style={{ color: "var(--foreground)", borderBottom: "1px solid var(--border)" }}>{s.title}</h2>
+                {s.text.trim() ? (
+                  <Bullets text={s.text} className="text-base" />
+                ) : (
+                  <p className="text-sm" style={{ color: "var(--muted)" }}>준비 중</p>
+                )}
+              </section>
+            ))}
+          </div>
+          <div>
+            <dl className="pt-5 space-y-5 md:sticky md:top-24" style={{ borderTop: "1px solid var(--foreground)" }}>
               {facts.map((f) => (
                 <div key={f.label}>
-                  <dt className="text-xs font-mono mb-1" style={{ color: "var(--muted)" }}>{f.label}</dt>
+                  <dt className="text-sm mb-1" style={{ color: "var(--muted)" }}>{f.label}</dt>
                   <dd className="text-sm leading-relaxed" style={{ color: "var(--foreground)" }}>{f.value}</dd>
                 </div>
               ))}
               <div>
-                <dt className="text-xs font-mono mb-2" style={{ color: "var(--muted)" }}>기술</dt>
+                <dt className="text-sm mb-2" style={{ color: "var(--muted)" }}>기술</dt>
                 <dd className="flex flex-wrap gap-1.5">
                   {project.tags.map((tag) => (
                     <Tag key={tag} variant="accent">{tag}</Tag>
@@ -100,7 +119,7 @@ export default async function ProjectDetailPage({ params }: Params) {
                 </dd>
               </div>
             </dl>
-          </Reveal>
+          </div>
         </div>
 
         <nav className="mt-20 grid sm:grid-cols-2 gap-4" aria-label="이전·다음 프로젝트">
@@ -115,20 +134,18 @@ export default async function ProjectDetailPage({ params }: Params) {
 function Neighbor({ project, dir }: { project: { id: number; title: string; org: string }; dir: "prev" | "next" }) {
   const isNext = dir === "next";
   return (
-    <Reveal className="h-full">
-      <Link
-        href={`/projects/${project.id}`}
-        className={`card-lift group h-full p-5 rounded-xl flex flex-col gap-1 ${isNext ? "text-right" : ""}`}
-        style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
-      >
-        <span className="text-xs font-mono" style={{ color: "var(--muted)" }}>
-          {isNext ? "다음 프로젝트 →" : "← 이전 프로젝트"}
-        </span>
-        <span className="text-sm font-semibold transition-colors group-hover:text-[var(--accent)]" style={{ color: "var(--foreground)" }}>
-          {project.title}
-        </span>
-        <span className="text-xs" style={{ color: "var(--muted)" }}>{project.org}</span>
-      </Link>
-    </Reveal>
+    <Link
+      href={`/projects/${project.id}`}
+      className={`card-lift group h-full p-5 rounded-lg flex flex-col gap-1 ${isNext ? "text-right" : ""}`}
+      style={{ background: "var(--background)", border: "1px solid var(--border)" }}
+    >
+      <span className="text-sm" style={{ color: "var(--muted)" }}>
+        {isNext ? "다음 프로젝트 →" : "← 이전 프로젝트"}
+      </span>
+      <span className="text-base font-semibold transition-colors group-hover:text-[var(--accent)]" style={{ color: "var(--foreground)" }}>
+        {project.title}
+      </span>
+      <span className="text-sm" style={{ color: "var(--muted)" }}>{project.org}</span>
+    </Link>
   );
 }

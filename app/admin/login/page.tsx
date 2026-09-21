@@ -91,7 +91,7 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <p className="text-xs text-center" style={{ color: "#f85149" }}>
+            <p className="text-xs text-center" style={{ color: "#b42318" }}>
               {error}
             </p>
           )}
@@ -100,7 +100,7 @@ export default function LoginPage() {
             type="submit"
             disabled={loading}
             className="w-full py-3 rounded-lg font-medium text-sm transition-opacity duration-200 hover:opacity-80 disabled:opacity-50"
-            style={{ background: "var(--accent)", color: "#0d1117" }}
+            style={{ background: "var(--accent)", color: "#fff" }}
           >
             {loading ? "로그인 중..." : "로그인"}
           </button>

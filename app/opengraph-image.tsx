@@ -17,35 +17,35 @@ export default function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px 80px",
-          background: "radial-gradient(circle at 85% 10%, rgba(88,166,255,0.22), transparent 55%), #0d1117",
-          color: "#e6edf3",
+          background: "#ffffff",
+          color: "#191918",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", fontSize: 28, color: "#58a6ff", letterSpacing: 4 }}>&gt; HELLO, WORLD_</div>
-          <svg width="72" height="72" viewBox="0 0 64 64">
-            <g fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="5.5">
-              <path d="M22 20 10 32l12 12" stroke="#58a6ff" />
-              <path d="M42 20l12 12-12 12" stroke="#58a6ff" />
-              <path d="M36 16 28 48" stroke="#3fb950" />
-            </g>
-          </svg>
+        <div style={{ display: "flex", fontSize: 30, color: "#62625d" }}>
+          Web Backend · LLM Applications
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: 104, fontWeight: 700, letterSpacing: -2 }}>
-            IM<span style={{ color: "#58a6ff", marginLeft: 28 }}>JUNE</span>
-          </div>
-          <div style={{ display: "flex", fontSize: 44, fontWeight: 600, marginTop: 8 }}>Backend Developer</div>
-          <div style={{ display: "flex", fontSize: 28, color: "#8b949e", marginTop: 20 }}>
-            PHP · Java · eGovFramework · LLM Agents
+          <div style={{ display: "flex", fontSize: 120, fontWeight: 800, letterSpacing: -4 }}>Im June</div>
+          <div style={{ display: "flex", fontSize: 36, marginTop: 16, fontFamily: "sans-serif", color: "#191918" }}>
+            5+ years building web backends. Now connecting LLM agents to real systems.
           </div>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 26 }}>
-          <div style={{ display: "flex", color: "#3fb950" }}>5+ years web backend · AI engineering</div>
-          <div style={{ display: "flex", color: "#8b949e" }}>imjune.vercel.app</div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            fontSize: 26,
+            fontFamily: "sans-serif",
+            borderTop: "2px solid #191918",
+            paddingTop: 24,
+          }}
+        >
+          <div style={{ display: "flex", color: "#c2410c" }}>PHP · Java · eGovFramework · LLM Agents</div>
+          <div style={{ display: "flex", color: "#62625d" }}>imjune.vercel.app</div>
         </div>
       </div>
     ),

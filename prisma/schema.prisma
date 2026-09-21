@@ -49,6 +49,10 @@ model Project {
   org       String   @default("")
   period    String
   desc      String   @db.Text
+  // 상세 페이지 칸. 한 줄에 하나씩, "라벨: 내용"으로 쓰면 라벨이 굵게 나온다. 비우면 '준비 중'
+  work      String   @default("") @db.Text // 맡은 일
+  solution  String   @default("") @db.Text // 구현과 문제 해결
+  result    String   @default("") @db.Text // 결과
   role      String
   image     String?
   link      String?

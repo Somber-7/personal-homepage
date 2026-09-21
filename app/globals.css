@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0d1117;
-  --foreground: #e6edf3;
-  --accent: #58a6ff;
-  --accent-green: #3fb950;
-  --muted: #8b949e;
-  --border: #30363d;
-  --surface: #161b22;
-  --surface2: #21262d;
+  /* 밝은 바탕, 먹색 글자, 포인트 색은 번트 오렌지 하나 */
+  --background: #ffffff;
+  --foreground: #191918;
+  --accent: #c2410c;
+  --accent-green: #2f6b4f; /* 관리자 화면의 '현재'·'학습 중' 표시에만 쓴다 */
+  --muted: #62625d;
+  --border: #e6e5e1;
+  --surface: #f7f7f5;
+  --surface2: #efefec;
 }
 
 @theme inline {
@@ -19,15 +20,28 @@
   --color-border: var(--border);
   --color-surface: var(--surface);
   --color-surface2: var(--surface2);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  word-break: keep-all;
   scroll-behavior: smooth;
+}
+
+/* 제목은 굵은 고딕에 자간을 조금 좁힌다 */
+@layer base {
+  h1, h2, h3 {
+    letter-spacing: -0.025em;
+  }
+}
+
+::selection {
+  background: #f6d7c6;
+  color: var(--foreground);
 }
 
 /* 스크롤바 */
@@ -56,76 +70,31 @@ html {
 }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: none; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* 페이지 전환: app/(site)/template.tsx */
 .page-enter {
-  animation: fade-up 0.5s ease-out both;
+  animation: fade-in 0.35s ease-out both;
 }
 
-/* 페이지 첫 화면 요소가 순서대로 떠오름. 지연은 --d로 준다 */
+/* 움직임은 페이지 첫 화면 등장에만 쓴다. 지연은 --d로 준다 */
 .hero-in {
   animation: fade-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   animation-delay: var(--d, 0ms);
 }
 
-/* 홈 첫 화면: 깜빡이는 커서와 천천히 움직이는 빛 */
-@keyframes blink {
-  50% { opacity: 0; }
-}
-.caret {
-  animation: blink 1s steps(1) infinite;
-}
-@keyframes glow-drift {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); }
-  50% { transform: translate(-44%, -56%) scale(1.12); }
-}
-.hero-glow {
-  transform: translate(-50%, -50%);
-  animation: glow-drift 14s ease-in-out infinite;
-}
-
-/* 스크롤해서 화면에 들어오면 나타남: app/components/Reveal.tsx.
-   JS가 없는 환경에서는 숨기지 않는다 */
-@media (scripting: enabled) {
-  [data-reveal] {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
-    transition-delay: var(--reveal-delay, 0ms);
-  }
-  [data-reveal].is-in {
-    opacity: 1;
-    transform: none;
-  }
-  .timeline-line {
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: transform 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s;
-  }
-  .is-in > .timeline-line {
-    transform: scaleY(1);
-  }
-  .hline {
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s;
-  }
-  .is-in > .hline {
-    transform: scaleX(1);
-  }
-}
-
-/* 카드 호버 */
+/* 카드 호버: 떠오르지 않고 테두리만 진해진다 */
 .card-lift {
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 .card-lift:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent) !important;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  border-color: var(--foreground) !important;
 }
 
 /* 상단 메뉴 밑줄 */
@@ -138,77 +107,14 @@ html {
   left: 0;
   right: 0;
   bottom: -6px;
-  height: 2px;
-  border-radius: 1px;
-  background: var(--accent);
+  height: 1px;
+  background: var(--foreground);
   transform: scaleX(0);
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease;
 }
 .nav-link:hover::after,
 .nav-link[data-active]::after {
   transform: scaleX(1);
-}
-
-/* 한 화면씩 넘기기: app/components/FullPage.tsx가 켜졌을 때만(html.fp) 화면 높이를 맞춘다 */
-.fp .screen,
-.fp .screen-last {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.fp .screen {
-  min-height: 100vh;
-}
-/* 마지막 화면은 아래 연락처까지 합쳐서 한 화면 */
-.fp .screen-last {
-  min-height: calc(100vh - var(--footer-h, 0px));
-}
-
-.fp-dots {
-  position: fixed;
-  right: 22px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 55;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.fp-dot {
-  position: relative;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  border: 1.5px solid var(--muted);
-  background: transparent;
-  cursor: pointer;
-  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
-}
-.fp-dot:hover,
-.fp-dot[data-active] {
-  border-color: var(--accent);
-  background: var(--accent);
-}
-.fp-dot[data-active] {
-  transform: scale(1.3);
-}
-.fp-dot-label {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  white-space: nowrap;
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 6px;
-  background: var(--surface2);
-  color: var(--foreground);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-.fp-dot:hover .fp-dot-label {
-  opacity: 1;
 }
 
 /* 움직임 줄이기 설정을 켠 사용자에게는 효과를 끈다 */
@@ -223,11 +129,5 @@ html {
     animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
     transition-delay: 0ms !important;
-  }
-  [data-reveal] {
-    transform: none !important;
-  }
-  .card-lift:hover {
-    transform: none;
   }
 }

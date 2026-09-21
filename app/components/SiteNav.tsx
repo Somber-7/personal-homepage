@@ -5,10 +5,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const NAV_LINKS = [
-  { href: "/", label: "홈" },
-  { href: "/about", label: "소개" },
-  { href: "/career", label: "경력" },
+  { href: "/#experience", label: "경력" },
   { href: "/projects", label: "프로젝트" },
+  { href: "/#skills", label: "기술" },
 ];
 
 export default function SiteNav() {
@@ -23,20 +22,21 @@ export default function SiteNav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  // 홈 안의 위치(/#...)는 따로 표시하지 않고, 프로젝트 페이지만 표시한다
+  const isActive = (href: string) => !href.includes("#") && pathname.startsWith(href);
 
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       style={{
-        background: scrolled || menuOpen ? "rgba(13,17,23,0.92)" : "transparent",
+        background: scrolled || menuOpen ? "rgba(255,255,255,0.92)" : "transparent",
         backdropFilter: scrolled ? "blur(12px)" : "none",
         borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
       }}
     >
       <nav className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="font-mono font-bold text-lg" style={{ color: "var(--accent)" }}>
-          &lt;임준 /&gt;
+        <Link href="/" className="font-bold text-lg tracking-tight" style={{ color: "var(--foreground)" }}>
+          임준
         </Link>
         <ul className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
@@ -54,8 +54,8 @@ export default function SiteNav() {
           <li>
             <a
               href="#contact"
-              className="text-sm px-4 py-1.5 rounded-lg transition-colors duration-200 hover:bg-[var(--surface2)]"
-              style={{ border: "1px solid var(--border)", color: "var(--foreground)" }}
+              className="text-sm px-4 py-1.5 rounded-md transition-opacity duration-200 hover:opacity-85"
+              style={{ background: "var(--foreground)", color: "var(--background)" }}
             >
               연락하기
             </a>
@@ -79,7 +79,7 @@ export default function SiteNav() {
               key={link.href}
               href={link.href}
               className="block py-2 text-sm"
-              style={{ color: isActive(link.href) ? "var(--accent)" : "var(--muted)" }}
+              style={{ color: isActive(link.href) ? "var(--foreground)" : "var(--muted)" }}
               onClick={() => setMenuOpen(false)}
             >
               {link.label}

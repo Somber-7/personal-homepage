@@ -12,10 +12,10 @@ export default async function AdminDashboard() {
 
   const stats = [
     { label: "경력", count: expCount, href: "/admin/experiences", color: "var(--accent)" },
-    { label: "교육", count: eduCount, href: "/admin/educations", color: "#79c0ff" },
+    { label: "교육", count: eduCount, href: "/admin/educations", color: "#1d4ed8" },
     { label: "프로젝트", count: projCount, href: "/admin/projects", color: "var(--accent-green)" },
-    { label: "기술 스택", count: skillCount, href: "/admin/skills", color: "#d2a8ff" },
-    { label: "자격증", count: certCount, href: "/admin/certifications", color: "#ffa657" },
+    { label: "기술 스택", count: skillCount, href: "/admin/skills", color: "#6d28d9" },
+    { label: "자격증", count: certCount, href: "/admin/certifications", color: "#a16207" },
   ];
 
   return (

@@ -1,19 +1,12 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { getCertifications, getEducations, getExperiences, getProjects, getSkills, groupByOrg, type Project } from "@/lib/portfolio";
-import Reveal from "../components/Reveal";
-import CountUp from "../components/CountUp";
+import { AWARDS, PROFILE, STATS, STRENGTHS } from "@/lib/profile";
+import Bullets from "../components/Bullets";
 import { ProjectCover } from "../components/ProjectCard";
-import { SectionTitle, Tag } from "../components/ui";
+import { Tag } from "../components/ui";
 
-// 홈은 한 화면(data-screen)씩 넘어간다: app/components/FullPage.tsx
-const STATS = [
-  { value: "5년 4개월", label: "웹 개발 경력", sub: "공공 SI · 웹에이전시" },
-  { value: "200개 이상", label: "구축 · 유지보수 사이트", sub: "웹에이전시 프로그램파트" },
-  { value: "5회", label: "팀 프로젝트 PM", sub: "AI 캠프 전 프로젝트" },
-  { value: "최우수상", label: "AI 캠프 최종 프로젝트", sub: "halil 에이전트 플랫폼" },
-];
-
+// 홈은 한 페이지 이력서: 머리 → 핵심 역량 → 경력 → 교육 → 대표 프로젝트 → 기술 → 자격증·수상 (연락처는 공통 푸터)
 export default async function Home() {
   const [experiences, educations, projects, skills, certifications] = await Promise.all([
     getExperiences(),
@@ -22,277 +15,240 @@ export default async function Home() {
     getSkills(),
     getCertifications(),
   ]);
-  const groups = groupByOrg(projects);
-  // 소속마다 가장 최근 프로젝트(기간 문자열 "YYYY.MM"이 가장 늦은 것)를 하나씩 골라 폭을 보여 준다
-  const featured = groups
+  // 소속마다 가장 최근 프로젝트(기간 문자열 "YYYY.MM"이 가장 늦은 것)를 하나씩
+  const featured = groupByOrg(projects)
     .map((g) => g.items.reduce((a, b) => (b.period > a.period ? b : a)))
     .slice(0, 3);
-
-  // 경력 흐름: 회사 경력과 교육을 시작 시점 순으로
-  const flow = [
-    ...experiences.map((e) => ({ key: `e${e.id}`, period: e.period, duration: e.duration, title: e.company, sub: e.role, tags: e.tags })),
-    ...educations.map((e) => ({ key: `d${e.id}`, period: e.period, duration: e.duration, title: e.name, sub: e.course, tags: e.tags })),
-  ].sort((a, b) => a.period.localeCompare(b.period));
-
-  const pages = [
-    { href: "/about", label: "소개", title: "어떤 개발자인가", meta: `기술 ${skills.length}개 분야 · 자격증 ${certifications.length}개` },
-    { href: "/career", label: "경력", title: "어디서 일했나", meta: `경력 ${experiences.length}곳 · 교육 ${educations.length}개` },
-    { href: "/projects", label: "프로젝트", title: "무엇을 만들었나", meta: `프로젝트 ${projects.length}건 · 소속 ${groups.length}곳` },
-  ];
-
-  const [lead, ...rest] = featured;
 
   return (
     <>
       <Hero />
 
-      {/* 2. 한눈에 */}
-      <section className="screen py-24 px-6" data-screen="한눈에" style={{ background: "var(--surface)" }}>
-        <div className="max-w-5xl mx-auto w-full">
-          <SectionTitle label="AT A GLANCE" title="한눈에 보기" />
-          <Reveal delay={80}>
-            <p className="mt-6 max-w-3xl text-lg leading-relaxed" style={{ color: "var(--muted)" }}>
-              공공 SI와 웹에이전시에서 5년 넘게 <span style={{ color: "var(--foreground)" }}>웹 백엔드를 만들고 운영</span>했고,
-              6개월 AI 과정을 마치며 <span style={{ color: "var(--foreground)" }}>LLM과 에이전트를 실제 서비스에 붙이는 일</span>로 영역을 넓혔습니다.
-            </p>
-          </Reveal>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mt-14">
-            {STATS.map((s, i) => (
-              <Reveal key={s.label} delay={120 + i * 90} className="h-full">
-                <div className="card-lift h-full p-7 rounded-2xl" style={{ background: "var(--background)", border: "1px solid var(--border)" }}>
-                  <p className="text-3xl md:text-4xl font-bold tracking-tight" style={{ color: "var(--accent)" }}>
-                    <CountUp text={s.value} />
-                  </p>
-                  <p className="mt-3 text-sm font-semibold" style={{ color: "var(--foreground)" }}>{s.label}</p>
-                  <p className="mt-1 text-xs" style={{ color: "var(--muted)" }}>{s.sub}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 3. 경력 흐름 */}
-      <section className="screen py-24 px-6" data-screen="경력 흐름">
-        <div className="max-w-5xl mx-auto w-full">
-          <div className="flex items-end justify-between gap-4 flex-wrap">
-            <SectionTitle label="CAREER" title="경력 흐름" desc="공공 SI에서 웹에이전시, 그리고 AI까지" />
-            <Reveal>
-              <Link href="/career" className="group text-sm inline-flex items-center gap-1" style={{ color: "var(--accent)" }}>
-                경력 자세히 보기 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </Link>
-            </Reveal>
-          </div>
-          <div className="relative mt-16">
-            <Reveal className="hidden md:block absolute left-0 right-0 top-[7px] h-px">
-              <span className="hline block h-full w-full" style={{ background: "linear-gradient(90deg, var(--border), var(--accent), var(--accent-green))" }} />
-            </Reveal>
-            <div className="grid md:grid-cols-3 gap-8">
-              {flow.map((f, i) => (
-                <Reveal key={f.key} delay={200 + i * 160} className="relative">
-                  <span
-                    className="block w-[15px] h-[15px] rounded-full"
-                    style={{ background: "var(--background)", border: `2px solid ${i === flow.length - 1 ? "var(--accent-green)" : "var(--accent)"}`, boxShadow: "0 0 0 5px rgba(88,166,255,0.12)" }}
-                  />
-                  <p className="mt-6 text-xs font-mono" style={{ color: "var(--muted)" }}>{f.period} · {f.duration}</p>
-                  <h3 className="mt-2 text-xl font-bold" style={{ color: "var(--foreground)" }}>{f.title}</h3>
-                  <p className="mt-1 text-sm" style={{ color: i === flow.length - 1 ? "var(--accent-green)" : "var(--accent)" }}>{f.sub}</p>
-                  <div className="mt-4 flex flex-wrap gap-1.5">
-                    {f.tags.slice(0, 4).map((t) => <Tag key={t}>{t}</Tag>)}
-                  </div>
-                </Reveal>
-              ))}
+      <Section id="strengths" title="핵심 역량">
+        <div className="grid md:grid-cols-3 gap-4 pt-8">
+          {STRENGTHS.map((s) => (
+            <div key={s.title} className="p-5 rounded-lg" style={{ background: "var(--surface)" }}>
+              <h3 className="text-base font-bold" style={{ color: "var(--foreground)" }}>{s.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>{s.desc}</p>
             </div>
-          </div>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* 4. 대표 프로젝트 */}
-      <section className="screen py-24 px-6" data-screen="대표 프로젝트" style={{ background: "var(--surface)" }}>
-        <div className="max-w-5xl mx-auto w-full">
-          <div className="flex items-end justify-between gap-4 flex-wrap">
-            <SectionTitle label="FEATURED" title="대표 프로젝트" desc="AI 캠프, 공공 SI, 웹에이전시에서 한 일을 하나씩 골랐습니다." />
-            <Reveal>
-              <Link href="/projects" className="group text-sm inline-flex items-center gap-1" style={{ color: "var(--accent)" }}>
-                전체 {projects.length}건 보기 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </Link>
-            </Reveal>
-          </div>
-          {lead && (
-            <Reveal delay={100} className="mt-10">
-              <FeaturedLead project={lead} />
-            </Reveal>
-          )}
-          <div className="grid md:grid-cols-2 gap-4 mt-4">
-            {rest.map((p, i) => (
-              <Reveal key={p.id} delay={200 + i * 100} className="h-full">
-                <FeaturedMini project={p} />
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Section id="experience" title="경력" aside="총 5년 4개월">
+        {experiences.map((e) => (
+          <Entry
+            key={e.id}
+            period={e.period}
+            duration={e.duration}
+            title={e.company}
+            sub={e.role}
+            body={e.desc}
+            tags={e.tags}
+            current={e.isCurrent}
+          />
+        ))}
+      </Section>
 
-      {/* 5. 기술 스택 */}
-      <section className="screen py-24 px-6" data-screen="기술 스택">
-        <div className="max-w-5xl mx-auto w-full">
-          <div className="flex items-end justify-between gap-4 flex-wrap">
-            <SectionTitle label="SKILLS" title="기술 스택" desc="실무에서 쓴 웹 백엔드 위에 AI 스택을 더했습니다." />
-            <Reveal>
-              <Link href="/about" className="group text-sm inline-flex items-center gap-1" style={{ color: "var(--accent)" }}>
-                소개 자세히 보기 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-              </Link>
-            </Reveal>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
-            {skills.map((g, i) => (
-              <Reveal key={g.id} delay={100 + i * 80} className="h-full">
-                <div className="card-lift h-full p-6 rounded-2xl" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
-                  <p className="text-xs font-mono tracking-widest mb-4" style={{ color: g.isLearning ? "var(--accent-green)" : "var(--accent)" }}>
-                    {g.category.toUpperCase()}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {g.items.map((t) => <Tag key={t}>{t}</Tag>)}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Section id="education" title="교육 · 학력">
+        {educations.map((e) => (
+          <Entry key={e.id} period={e.period} duration={e.duration} title={e.name} sub={e.course} body={e.desc} tags={e.tags} />
+        ))}
+      </Section>
 
-      {/* 6. 더 알아보기 (+ 아래 연락처까지 한 화면) */}
-      <section className="screen-last py-24 px-6" data-screen="더 알아보기" style={{ background: "var(--surface)" }}>
-        <div className="max-w-5xl mx-auto w-full">
-          <SectionTitle label="EXPLORE" title="더 알아보기" />
-          <div className="grid md:grid-cols-3 gap-5 mt-12">
-            {pages.map((p, i) => (
-              <Reveal key={p.href} delay={i * 100} className="h-full">
-                <Link
-                  href={p.href}
-                  className="card-lift group h-full p-6 rounded-xl flex flex-col gap-3"
-                  style={{ background: "var(--background)", border: "1px solid var(--border)" }}
-                >
-                  <span className="text-xs font-mono tracking-widest" style={{ color: "var(--accent)" }}>{p.label}</span>
-                  <h3 className="text-lg font-semibold" style={{ color: "var(--foreground)" }}>{p.title}</h3>
-                  <p className="text-xs font-mono flex-1" style={{ color: "var(--muted)" }}>{p.meta}</p>
-                  <span className="text-sm inline-flex items-center gap-1" style={{ color: "var(--accent)" }}>
-                    보러 가기 <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-                  </span>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
+      <Section
+        id="projects"
+        title="대표 프로젝트"
+        aside={<MoreLink href="/projects">프로젝트 전체 {projects.length}건</MoreLink>}
+      >
+        <div className="pt-8 space-y-4">
+          {featured.map((p) => (
+            <FeaturedProject key={p.id} project={p} />
+          ))}
         </div>
-      </section>
+      </Section>
+
+      <Section id="skills" title="기술">
+        <dl>
+          {skills.map((g) => (
+            <div key={g.id} className="py-4 grid md:grid-cols-[180px_1fr] gap-2 md:gap-10" style={{ borderBottom: "1px solid var(--border)" }}>
+              <dt className="text-base font-semibold" style={{ color: "var(--foreground)" }}>
+                {g.category}
+                {g.isLearning && <span className="ml-2 text-xs font-medium" style={{ color: "var(--accent)" }}>학습 중</span>}
+              </dt>
+              <dd className="flex flex-wrap gap-1.5">
+                {g.items.map((t) => <Tag key={t}>{t}</Tag>)}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </Section>
+
+      <Section id="certifications" title="자격증 · 수상">
+        <div className="grid md:grid-cols-2 gap-x-12">
+          <ItemList title="자격증" rows={certifications.map((c) => ({ key: `c${c.id}`, year: c.year, name: c.name, org: c.org }))} />
+          <ItemList title="수상" rows={AWARDS.map((a, i) => ({ key: `a${i}`, year: a.year, name: a.name, org: a.org }))} />
+        </div>
+      </Section>
     </>
-  );
-}
-
-// 대표 프로젝트 중 첫 번째를 가로로 크게
-function FeaturedLead({ project }: { project: Project }) {
-  return (
-    <Link
-      href={`/projects/${project.id}`}
-      className="card-lift group grid md:grid-cols-[1.15fr_1fr] rounded-2xl overflow-hidden"
-      style={{ background: "var(--background)", border: "1px solid var(--border)" }}
-    >
-      <div className="aspect-video md:aspect-auto md:h-[250px] overflow-hidden" style={{ background: "var(--surface2)" }}>
-        <ProjectCover project={project} large />
-      </div>
-      <div className="p-6 flex flex-col gap-2.5">
-        <span className="text-xs font-mono" style={{ color: "var(--accent-green)" }}>{project.org}</span>
-        <h3 className="text-xl font-bold leading-snug transition-colors group-hover:text-[var(--accent)]" style={{ color: "var(--foreground)" }}>
-          {project.title}
-        </h3>
-        <p className="text-xs font-mono" style={{ color: "var(--accent)" }}>{[project.client, project.period].filter(Boolean).join(" · ")}</p>
-        <p className="text-sm leading-relaxed line-clamp-2" style={{ color: "var(--muted)" }}>{project.desc}</p>
-        <div className="flex flex-wrap gap-1.5 mt-auto">
-          {project.tags.slice(0, 4).map((t) => <Tag key={t}>{t}</Tag>)}
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-// 대표 프로젝트 나머지: 작은 썸네일 + 제목만 (자세한 내용은 프로젝트 페이지에서)
-function FeaturedMini({ project }: { project: Project }) {
-  return (
-    <Link
-      href={`/projects/${project.id}`}
-      className="card-lift group h-full flex items-center gap-4 p-3 rounded-xl"
-      style={{ background: "var(--background)", border: "1px solid var(--border)" }}
-    >
-      <div className="w-36 aspect-video flex-shrink-0 overflow-hidden rounded-lg" style={{ background: "var(--surface2)" }}>
-        <ProjectCover project={project} small />
-      </div>
-      <div className="min-w-0 flex-1">
-        <p className="text-xs font-mono" style={{ color: "var(--accent-green)" }}>{project.org}</p>
-        <h3 className="mt-1 text-sm font-semibold leading-snug line-clamp-2 transition-colors group-hover:text-[var(--accent)]" style={{ color: "var(--foreground)" }}>
-          {project.title}
-        </h3>
-        <p className="mt-1 text-xs font-mono truncate" style={{ color: "var(--muted)" }}>{[project.client, project.period].filter(Boolean).join(" · ")}</p>
-      </div>
-      <span className="pr-2 transition-transform duration-300 group-hover:translate-x-1" style={{ color: "var(--accent)" }}>→</span>
-    </Link>
   );
 }
 
 function Hero() {
   const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
+  const contacts = [
+    { label: "이메일", value: PROFILE.email, href: `mailto:${PROFILE.email}` },
+    { label: "전화", value: PROFILE.phone, href: `tel:${PROFILE.phone}` },
+    { label: "GitHub", value: PROFILE.github.replace("https://", ""), href: PROFILE.github },
+  ];
   return (
-    <section className="screen min-h-screen flex items-center justify-center relative overflow-hidden" data-screen="처음">
-      <div
-        className="absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
-      <div
-        className="hero-glow absolute top-1/3 left-1/2 w-[500px] h-[500px] rounded-full opacity-[0.07] blur-3xl pointer-events-none"
-        style={{ background: "var(--accent)" }}
-      />
-      <div className="relative z-10 text-center px-6">
-        <p className="hero-in font-mono text-sm mb-4 tracking-widest" style={{ color: "var(--accent)" }}>
-          &gt; HELLO, WORLD<span className="caret">_</span>
-        </p>
-        <h1 className="hero-in text-5xl md:text-7xl font-bold mb-4 tracking-tight" style={d(100)}>
-          임<span style={{ color: "var(--accent)" }}>준</span>
+    <section className="px-6 pt-36 pb-16">
+      <div className="max-w-5xl mx-auto">
+        <h1 className="hero-in text-4xl md:text-6xl font-bold leading-tight" style={{ color: "var(--foreground)" }}>
+          {PROFILE.title} {PROFILE.name}
         </h1>
-        <p className="hero-in text-xl md:text-2xl font-semibold mb-2" style={{ color: "var(--foreground)", ...d(200) }}>
-          Backend Developer
-        </p>
-        <p className="hero-in text-sm mb-2 font-mono" style={{ color: "var(--muted)", ...d(300) }}>
-          웹 개발 5년 4개월 · PHP / Java / eGovFramework · LLM 애플리케이션
-        </p>
-        <p className="hero-in text-sm mb-10" style={{ color: "var(--accent-green)", ...d(400) }}>
-          ▸ SK네트웍스 Family AI 캠프 29기 수료 · 기업참여 최종 프로젝트 최우수상
-        </p>
-        <div className="hero-in flex gap-4 justify-center flex-wrap" style={d(500)}>
+        <p className="hero-in mt-4 text-lg" style={{ color: "var(--muted)", ...d(80) }}>{PROFILE.summary}</p>
+        <ul className="hero-in mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm" style={d(160)}>
+          {contacts.map((c) => (
+            <li key={c.label}>
+              <span style={{ color: "var(--muted)" }}>{c.label}</span>{" "}
+              <a
+                href={c.href}
+                {...(c.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="font-medium underline decoration-1 underline-offset-4 hover:text-[var(--accent)]"
+                style={{ color: "var(--foreground)", textDecorationColor: "var(--border)" }}
+              >
+                {c.value}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="hero-in mt-8 flex gap-3 flex-wrap" style={d(240)}>
+          <a
+            href={PROFILE.pdf}
+            download={PROFILE.pdfName}
+            className="px-5 py-2.5 rounded-md font-semibold text-sm transition-opacity duration-200 hover:opacity-85"
+            style={{ background: "var(--foreground)", color: "var(--background)" }}
+          >
+            경력기술서 PDF
+          </a>
           <Link
             href="/projects"
-            className="px-6 py-3 rounded-lg font-medium text-sm transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5"
-            style={{ background: "var(--accent)", color: "#0d1117" }}
-          >
-            프로젝트 보기
-          </Link>
-          <Link
-            href="/about"
-            className="px-6 py-3 rounded-lg font-medium text-sm transition-all duration-200 hover:bg-[var(--surface2)] hover:-translate-y-0.5"
+            className="px-5 py-2.5 rounded-md font-semibold text-sm transition-colors duration-200 hover:bg-[var(--surface)]"
             style={{ border: "1px solid var(--border)", color: "var(--foreground)" }}
           >
-            소개 보기
+            프로젝트 전체
           </Link>
         </div>
-        <div className="hero-in mt-16 flex flex-col items-center gap-2" style={d(700)}>
-          <span className="text-xs" style={{ color: "var(--muted)" }}>scroll</span>
-          <svg className="animate-bounce" width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ color: "var(--muted)" }}>
-            <path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          </svg>
-        </div>
+        {/* 칸 사이 1px 틈으로 비치는 바탕색이 구분선이 된다 */}
+        <dl className="hero-in grid grid-cols-2 lg:grid-cols-4 gap-px mt-12 rounded-lg overflow-hidden" style={{ background: "var(--border)", border: "1px solid var(--border)", ...d(320) }}>
+          {STATS.map((s) => (
+            <div key={s.label} className="p-4 sm:p-6 flex flex-col" style={{ background: "var(--background)" }}>
+              <dt className="order-2 mt-2 text-sm font-semibold" style={{ color: "var(--foreground)" }}>{s.label}</dt>
+              <dd className="order-1 text-xl sm:text-3xl font-bold tracking-tight whitespace-nowrap" style={{ color: "var(--foreground)" }}>{s.value}</dd>
+              <dd className="order-3 mt-0.5 text-xs" style={{ color: "var(--muted)" }}>{s.sub}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
+  );
+}
+
+// 제목 줄(굵은 밑줄) + 내용
+function Section({ id, title, aside, children }: { id: string; title: string; aside?: ReactNode; children: ReactNode }) {
+  return (
+    <section id={id} className="px-6 py-14">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex items-baseline justify-between gap-4 pb-4" style={{ borderBottom: "2px solid var(--foreground)" }}>
+          <h2 className="text-2xl md:text-3xl font-bold" style={{ color: "var(--foreground)" }}>{title}</h2>
+          {typeof aside === "string" ? <span className="text-sm" style={{ color: "var(--muted)" }}>{aside}</span> : aside}
+        </div>
+        {children}
+      </div>
+    </section>
+  );
+}
+
+// 경력·교육 한 건: 왼쪽 기간, 오른쪽 내용
+function Entry({ period, duration, title, sub, body, tags, current }: {
+  period: string; duration: string; title: string; sub: string; body: string; tags: string[]; current?: boolean;
+}) {
+  return (
+    <article className="py-8 grid md:grid-cols-[180px_1fr] gap-3 md:gap-10" style={{ borderBottom: "1px solid var(--border)" }}>
+      <div>
+        <p className="text-sm font-mono" style={{ color: "var(--foreground)" }}>{period}</p>
+        <p className="mt-1 text-sm" style={{ color: "var(--muted)" }}>
+          {duration}
+          {current && <span style={{ color: "var(--accent)" }}> · 현재</span>}
+        </p>
+      </div>
+      <div>
+        <h3 className="text-xl font-bold" style={{ color: "var(--foreground)" }}>{title}</h3>
+        <p className="mt-1 text-base font-medium" style={{ color: "var(--accent)" }}>{sub}</p>
+        <Bullets text={body} className="mt-4 text-[15px]" />
+        {tags.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {tags.map((t) => <Tag key={t}>{t}</Tag>)}
+          </div>
+        )}
+      </div>
+    </article>
+  );
+}
+
+function FeaturedProject({ project }: { project: Project }) {
+  return (
+    <Link
+      href={`/projects/${project.id}`}
+      className="card-lift group grid md:grid-cols-[280px_1fr] gap-5 p-4 rounded-lg"
+      style={{ border: "1px solid var(--border)" }}
+    >
+      <div className="aspect-video overflow-hidden rounded" style={{ background: "var(--surface2)" }}>
+        <ProjectCover project={project} />
+      </div>
+      <div className="flex flex-col gap-2 min-w-0">
+        <span className="text-sm" style={{ color: "var(--accent)" }}>{project.org}</span>
+        <h3 className="text-xl font-bold leading-snug transition-colors group-hover:text-[var(--accent)]" style={{ color: "var(--foreground)" }}>
+          {project.title}
+        </h3>
+        <p className="text-sm" style={{ color: "var(--muted)" }}>{[project.client, project.period].filter(Boolean).join(" · ")}</p>
+        <p className="text-[15px] leading-relaxed line-clamp-2" style={{ color: "var(--muted)" }}>{project.desc}</p>
+        <div className="flex flex-wrap gap-1.5 mt-auto pt-1">
+          {project.tags.slice(0, 5).map((t) => <Tag key={t}>{t}</Tag>)}
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function ItemList({ title, rows }: { title: string; rows: { key: string; year: string; name: string; org: string }[] }) {
+  return (
+    <div className="pt-8">
+      <h3 className="text-base font-bold mb-2" style={{ color: "var(--foreground)" }}>{title}</h3>
+      <ul>
+        {rows.map((r) => (
+          <li key={r.key} className="py-3 grid grid-cols-[72px_1fr] gap-x-4" style={{ borderBottom: "1px solid var(--border)" }}>
+            <span className="text-sm font-mono" style={{ color: "var(--muted)" }}>{r.year}</span>
+            <span>
+              <span className="text-[15px] font-medium" style={{ color: "var(--foreground)" }}>{r.name}</span>
+              <span className="block text-sm" style={{ color: "var(--muted)" }}>{r.org}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function MoreLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="group text-sm inline-flex items-center gap-1 underline decoration-1 underline-offset-4"
+      style={{ color: "var(--foreground)", textDecorationColor: "var(--muted)" }}
+    >
+      {children} <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+    </Link>
   );
 }

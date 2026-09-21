@@ -30,7 +30,7 @@ export default function ScrollProgress() {
       ref={bar}
       aria-hidden
       className="fixed top-0 left-0 right-0 h-0.5 z-[60] origin-left"
-      style={{ transform: "scaleX(0)", background: "linear-gradient(90deg, var(--accent), var(--accent-green))" }}
+      style={{ transform: "scaleX(0)", background: "var(--accent)" }}
     />
   );
 }
