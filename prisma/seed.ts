@@ -91,7 +91,7 @@ async function main() {
         desc: "코딩 없이 팀 운영 AI 에이전트를 만들어 쓰는 플랫폼입니다. Google Drive·Jira·인사 시스템을 연결해 두면 대화와 승인 한 번으로 업무 추출과 Jira 등록까지 처리합니다. 모든 답변에 원문 근거를 붙이고, 외부를 바꾸는 작업은 사람의 승인을 거치도록 설계했습니다. 도구 레지스트리 33종과 승인 게이트 15종, 문서 파싱·청킹·임베딩 파이프라인, 운영자 콘솔을 구현했습니다. 문서 임베딩을 맡는 RunPod GPU 워커는 팀원이 만든 저장소를 halil에 맞게 옮겨 배포하고, OCR 처리와 txt·md 입력 지원을 보완했습니다.",
         role: "PM · 화면 전반 · 에이전트 하네스 · 운영자 콘솔",
         tags: J(["Django", "DRF", "deepagents", "LangGraph", "PostgreSQL", "pgvector", "React", "RunPod", "AWS"]),
-        order: 1,
+        order: 5,
       },
       {
         title: "명가작명소 · AI 작명 웹 서비스",
@@ -102,7 +102,7 @@ async function main() {
         desc: "3차 프로젝트에서 만든 작명 QA 엔진을 실제 사용자·관리자가 쓰는 웹 서비스로 제품화했습니다. LangGraph 엔진을 FastAPI로 감싸 재사용하고 React 사용자 화면과 Django 인증·회원·관리 기능을 붙여 AWS에 배포했으며, 실제 도메인으로 운영했습니다.",
         role: "PM · 통합 관리 · 배포 흐름 · 서버 인프라",
         tags: J(["React", "TypeScript", "Django", "FastAPI", "ChromaDB", "Neo4j", "Docker", "AWS", "GitHub Actions"]),
-        order: 2,
+        order: 4,
       },
       {
         title: "조건 기반 맞춤 작명 QA 시스템",
@@ -124,7 +124,7 @@ async function main() {
         desc: "약 500만 건의 아파트 실거래 데이터로 가격 예측·브랜드 분류·지역 군집화·이상 거래 탐지를 웹에서 돌려 볼 수 있게 만들었습니다. 원본 ZIP에서 MySQL, Parquet 캐시, 사전계산 모델을 거쳐 Streamlit으로 이어지는 아키텍처를 설계했고, 행정구역 개편을 반영해 결측 37만 건을 보완하고 지오코딩을 수행했습니다. 트리 앙상블이 DNN보다 RMSE 8~12% 우수했습니다.",
         role: "PM · 데이터 엔지니어링 · 아키텍처 설계 · 회귀 모델",
         tags: J(["Python", "scikit-learn", "LightGBM", "XGBoost", "PyTorch", "Streamlit", "MySQL", "지오코딩"]),
-        order: 4,
+        order: 2,
       },
       {
         title: "에너지 가격 변동의 모빌리티 시장 영향 분석",
@@ -135,7 +135,7 @@ async function main() {
         desc: "국산차 월별 등록 데이터와 전국 유가 변동의 상관관계를 분석했습니다. 유가 변동이 신차 등록에 반영되기까지 평균 3개월의 리드타임을 확인했고, 친환경차 수요는 유가보다 보조금·인프라 같은 정책 요인에 좌우된다는 점을 데이터로 검증했습니다.",
         role: "PM · 크롤러 개발 · 산출물 취합",
         tags: J(["Python", "MySQL", "Streamlit", "Plotly", "웹 크롤링"]),
-        order: 5,
+        order: 1,
       },
       {
         title: "교육부 정보시스템 기능강화 사업",

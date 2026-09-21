@@ -14,8 +14,10 @@ export default async function Home() {
     getCertifications(),
   ]);
   const groups = groupByOrg(projects);
-  // 소속마다 첫 프로젝트를 하나씩 골라 폭을 보여 준다
-  const featured = groups.map((g) => g.items[0]).slice(0, 3);
+  // 소속마다 가장 최근 프로젝트(기간 문자열 "YYYY.MM"이 가장 늦은 것)를 하나씩 골라 폭을 보여 준다
+  const featured = groups
+    .map((g) => g.items.reduce((a, b) => (b.period > a.period ? b : a)))
+    .slice(0, 3);
 
   const pages = [
     { href: "/about", label: "소개", title: "어떤 개발자인가", meta: `기술 ${skills.length}개 분야 · 자격증 ${certifications.length}개` },
