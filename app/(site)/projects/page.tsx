@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/site-meta";
 import { getProjects, groupByOrg } from "@/lib/portfolio";
 import Reveal from "../../components/Reveal";
 import ProjectCard from "../../components/ProjectCard";
 import { PageHeader } from "../../components/ui";
 
-export const metadata: Metadata = { title: "프로젝트 | 임준" };
+export const metadata: Metadata = pageMeta("프로젝트 | 임준", "회사 실무, AI 캠프, 개인 작업으로 진행한 프로젝트를 소속별로 모았습니다.", "/projects");
 
 export default async function ProjectsPage() {
   const projects = await getProjects();

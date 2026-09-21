@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/site-meta";
 import { getCertifications, getSkills } from "@/lib/portfolio";
 import Reveal from "../../components/Reveal";
 import CountUp from "../../components/CountUp";
 import { PageHeader, SectionTitle } from "../../components/ui";
 
-export const metadata: Metadata = { title: "소개 | 임준" };
+export const metadata: Metadata = pageMeta("소개 | 임준", "공공 SI와 웹에이전시에서 쌓은 웹 백엔드 경험을 바탕으로 LLM과 에이전트를 업무 시스템에 연결하는 개발자 임준을 소개합니다.", "/about");
 
 const STATS = [
   { label: "총 경력", value: "5년 4개월" },

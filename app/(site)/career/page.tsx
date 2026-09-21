@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/site-meta";
 import { getEducations, getExperiences } from "@/lib/portfolio";
 import Timeline from "../../components/Timeline";
 import { PageHeader, SectionTitle } from "../../components/ui";
 
-export const metadata: Metadata = { title: "경력 | 임준" };
+export const metadata: Metadata = pageMeta("경력 | 임준", "공공기관 SI와 웹에이전시에서 5년 넘게 웹 백엔드를 개발했고, AI 엔지니어링 과정을 마쳤습니다.", "/career");
 
 export default async function CareerPage() {
   const [experiences, educations] = await Promise.all([getExperiences(), getEducations()]);

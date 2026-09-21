@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SITE_NAME, SITE_URL, pageMeta } from "@/lib/site-meta";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "임준 | Backend Developer",
-  description: "웹 개발 5년 4개월, LLM·에이전트로 영역을 넓히고 있는 백엔드 개발자 임준의 포트폴리오입니다.",
+  metadataBase: new URL(SITE_URL),
+  ...pageMeta(SITE_NAME),
 };
 
 export default function RootLayout({

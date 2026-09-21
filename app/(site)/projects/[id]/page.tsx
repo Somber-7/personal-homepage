@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/site-meta";
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -22,8 +23,12 @@ async function findProject(id: string) {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const found = await findProject((await params).id);
-  return { title: found ? `${found.project.title} | 임준` : "프로젝트 | 임준", description: found?.project.desc.slice(0, 120) };
+  const { id } = await params;
+  const found = await findProject(id);
+  if (!found) return { title: "프로젝트 | 임준" };
+  const { project } = found;
+  const desc = project.desc.length > 120 ? project.desc.slice(0, 118) + "…" : project.desc;
+  return pageMeta(`${project.title} | 임준`, desc, `/projects/${id}`, project.image ? [project.image] : undefined);
 }
 
 export default async function ProjectDetailPage({ params }: Params) {
