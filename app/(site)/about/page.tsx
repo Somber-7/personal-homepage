@@ -34,8 +34,8 @@ export default async function AboutPage() {
               한국전력공사, 교육부 등 공공기관 대상 Java EgovFramework 기반 SI 프로젝트에 다수 참여했습니다.
             </p>
             <p>
-              이후 <span style={{ color: "var(--foreground)" }}>쓰리애니아이앤시</span>에서
-              순수 PHP와 사내 자체 솔루션으로 약 200개 사이트의 구축·유지보수에 참여했고,
+              이후 <span style={{ color: "var(--foreground)" }}>쓰리애니아이앤시</span> 프로그램파트에서
+              순수 PHP와 사내 자체 솔루션으로 200개 이상 사이트의 구축·유지보수에 참여했고,
               Linux 웹 서버 운영과 외부 연동, 장애 대응까지 함께 담당했습니다.
             </p>
             <p>
