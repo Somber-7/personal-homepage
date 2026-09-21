@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
       period: body.period,
       desc: body.desc,
       role: body.role,
+      image: body.image ? String(body.image).trim() : null,
       tags: JSON.stringify(body.tags ?? []),
       order: body.order ?? 0,
     },

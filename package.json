@@ -11,7 +11,8 @@
     "db:seed": "ts-node --project prisma/tsconfig.seed.json prisma/seed.ts",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "db:images": "ts-node --project prisma/tsconfig.seed.json prisma/set-images.ts"
   },
   "prisma": {
     "seed": "ts-node --project prisma/tsconfig.seed.json prisma/seed.ts"

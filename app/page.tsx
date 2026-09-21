@@ -8,7 +8,7 @@ type ExperienceRow = {
 };
 type ProjectRow = {
   id: number; title: string; client: string; period: string;
-  desc: string; role: string; tags: string; order: number;
+  desc: string; role: string; image: string | null; tags: string; order: number;
   createdAt: Date; updatedAt: Date;
 };
 type SkillRow = {

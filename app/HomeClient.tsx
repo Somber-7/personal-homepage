@@ -23,6 +23,7 @@ type Project = {
   period: string;
   desc: string;
   role: string;
+  image?: string | null;
   tags: string[];
   order: number;
 };
@@ -403,7 +404,7 @@ function Projects({ projects }: { projects: Project[] }) {
           {projects.map((proj, i) => (
             <div
               key={proj.id}
-              className="p-5 rounded-xl flex flex-col gap-3 transition-all duration-500 hover:border-[var(--accent)]"
+              className="group p-5 rounded-xl flex flex-col gap-3 overflow-hidden transition-all duration-500 hover:border-[var(--accent)]"
               style={{
                 background: "var(--background)",
                 border: "1px solid var(--border)",
@@ -412,6 +413,30 @@ function Projects({ projects }: { projects: Project[] }) {
                 transitionDelay: visible ? `${i * 70}ms` : "0ms",
               }}
             >
+              {proj.image ? (
+                <div className="-mx-5 -mt-5 mb-1 aspect-video overflow-hidden" style={{ borderBottom: "1px solid var(--border)", background: "var(--surface2)" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={proj.image}
+                    alt={proj.title}
+                    loading="lazy"
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              ) : (
+                <div
+                  className="-mx-5 -mt-5 mb-1 aspect-video flex flex-col justify-between p-4"
+                  style={{
+                    borderBottom: "1px solid var(--border)",
+                    background: "radial-gradient(120% 90% at 100% 0%, rgba(88,166,255,0.16), transparent 60%), var(--surface2)",
+                  }}
+                >
+                  <span className="font-mono text-2xl font-bold" style={{ color: "var(--accent)", opacity: 0.55 }}>&lt;/&gt;</span>
+                  <span className="font-mono text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
+                    {proj.tags.slice(0, 3).join(" · ")}
+                  </span>
+                </div>
+              )}
               <div>
                 <h3 className="font-semibold text-sm leading-snug mb-1" style={{ color: "var(--foreground)" }}>
                   {proj.title}

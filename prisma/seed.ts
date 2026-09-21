@@ -78,6 +78,7 @@ async function main() {
     data: [
       {
         title: "halil · 프로젝트 운영 Agent Platform",
+        image: "/projects/halil.jpg",
         client: "SK네트웍스 Family AI 캠프 기업참여 최종 프로젝트 (5인) · 최우수상",
         period: "2026.07 ~ 2026.09",
         desc: "코딩 없이 팀 운영 AI 에이전트를 만들어 쓰는 플랫폼입니다. Google Drive·Jira·인사 시스템을 연결해 두면 대화와 승인 한 번으로 업무 추출과 Jira 등록까지 처리합니다. 모든 답변에 원문 근거를 붙이고, 외부를 바꾸는 작업은 사람의 승인을 거치도록 설계했습니다. 도구 레지스트리 33종과 승인 게이트 15종, 문서 파싱·청킹·임베딩 파이프라인, 운영자 콘솔을 구현했습니다.",
@@ -87,6 +88,7 @@ async function main() {
       },
       {
         title: "명가작명소 · AI 작명 웹 서비스",
+        image: "/projects/myeongga.jpg",
         client: "SK네트웍스 Family AI 캠프 4차 프로젝트 (4인) · myeongga.site",
         period: "2026.06 ~ 2026.07",
         desc: "3차 프로젝트에서 만든 작명 QA 엔진을 실제 사용자·관리자가 쓰는 웹 서비스로 제품화했습니다. LangGraph 엔진을 FastAPI로 감싸 재사용하고 React 사용자 화면과 Django 인증·회원·관리 기능을 붙여 AWS에 배포했으며, 실제 도메인으로 운영했습니다.",
@@ -96,6 +98,7 @@ async function main() {
       },
       {
         title: "조건 기반 맞춤 작명 QA 시스템",
+        image: "/projects/naming-qa.jpg",
         client: "SK네트웍스 Family AI 캠프 3차 프로젝트 (4인)",
         period: "2026.06",
         desc: "자연어로 입력한 조건에 맞는 이름을 추천하고 법령 근거를 출처와 함께 제시하는 대화형 QA 시스템입니다. LangGraph ReAct Router가 RAG·계산·법령 API·그래프 네 경로로 분기하고 FastMCP 도구 16개를 호출합니다. 운영 파이프라인과 QLoRA 파인튜닝 모델의 답변 품질을 비교해 4.09점 대 1.63점으로 RAG+Tool 구조의 우위를 수치로 확인했습니다.",
@@ -105,6 +108,7 @@ async function main() {
       },
       {
         title: "아파트 실거래 ML 인터랙티브 플랫폼",
+        image: "/projects/apartment.jpg",
         client: "SK네트웍스 Family AI 캠프 2차 프로젝트 (4인)",
         period: "2026.04 ~ 2026.05",
         desc: "약 500만 건의 아파트 실거래 데이터로 가격 예측·브랜드 분류·지역 군집화·이상 거래 탐지를 웹에서 돌려 볼 수 있게 만들었습니다. 원본 ZIP에서 MySQL, Parquet 캐시, 사전계산 모델을 거쳐 Streamlit으로 이어지는 아키텍처를 설계했고, 행정구역 개편을 반영해 결측 37만 건을 보완하고 지오코딩을 수행했습니다. 트리 앙상블이 DNN보다 RMSE 8~12% 우수했습니다.",
@@ -114,6 +118,7 @@ async function main() {
       },
       {
         title: "에너지 가격 변동의 모빌리티 시장 영향 분석",
+        image: "/projects/energy.jpg",
         client: "SK네트웍스 Family AI 캠프 1차 프로젝트 (3인)",
         period: "2026.03",
         desc: "국산차 월별 등록 데이터와 전국 유가 변동의 상관관계를 분석했습니다. 유가 변동이 신차 등록에 반영되기까지 평균 3개월의 리드타임을 확인했고, 친환경차 수요는 유가보다 보조금·인프라 같은 정책 요인에 좌우된다는 점을 데이터로 검증했습니다.",
@@ -168,6 +173,7 @@ async function main() {
       },
       {
         title: "웹에이전시 웹사이트 구축 · 운영 (약 200개 사이트)",
+        image: "/projects/agency.jpg",
         client: "쓰리애니아이앤시",
         period: "2025.02 ~ 2026.03",
         desc: "순수 PHP와 사내 자체 솔루션으로 약 200개 사이트를 구축·운영했습니다. KT그룹희망나눔재단의 후원 신청, Astell&Kern의 4개 국어 브랜드·제품 사이트, 현대웰딩의 B2B 제품 카탈로그와 다단계 분류·필터, GQA의 교육 신청·회원 수료증 시스템처럼 성격이 전혀 다른 사이트를 모두 다뤘습니다. PG 결제, 지도·주소 API, 문자·알림톡 발송, 소셜 로그인 같은 외부 연동과 Linux 서버 운영·장애 대응을 함께 담당했습니다.",
@@ -177,6 +183,7 @@ async function main() {
       },
       {
         title: "RunPod Serverless 문서 처리 워커",
+        image: "/projects/runpod.jpg",
         client: "개인 프로젝트 (halil 임베딩 인프라)",
         period: "2026.08 ~ 2026.09",
         desc: "PDF·DOCX·Markdown을 파싱하고 구조를 보존해 청킹한 뒤 CUDA로 임베딩까지 처리하는 큐 기반 워커입니다. reading-order 후처리와 heading 승격 보정, table gate를 순서대로 적용하고, 구조 교정이 끝난 뒤 이미지 설명을 생성하도록 순서를 잡았습니다. 이미지 설명이 실패해도 문서 색인 전체가 실패하지 않도록 경계를 나눴습니다.",
@@ -195,6 +202,7 @@ async function main() {
       },
       {
         title: "개인 포트폴리오 홈페이지",
+        image: "/projects/homepage.jpg",
         client: "개인 프로젝트",
         period: "2026",
         desc: "지금 보고 계신 사이트입니다. Next.js App Router로 만들었고, 경력·프로젝트·기술 스택·자격증을 관리자 페이지에서 직접 추가·수정·삭제할 수 있습니다. 공개 페이지는 서버 컴포넌트에서 DB를 조회하고 관리자 영역은 NextAuth 세션으로 보호합니다.",
@@ -204,6 +212,7 @@ async function main() {
       },
       {
         title: "제8회 K-디지털 트레이닝 해커톤",
+        image: "/projects/hackathon.jpg",
         client: "대외 활동 · 팀 참가",
         period: "2026",
         desc: "AI 기반 상담 지원 플랫폼으로 참가했습니다. LangGraph 멀티 에이전트를 Care·감정·위험도·문서화·개입추천 역할로 나누고, 상담 지식 RAG와 MySQL + VectorDB 하이브리드 검색을 붙여 상담 지표를 자동 생성하도록 만들었습니다.",

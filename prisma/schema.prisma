@@ -36,6 +36,7 @@ model Project {
   period    String
   desc      String   @db.Text
   role      String
+  image     String?
   tags      String   @db.Text
   order     Int      @default(0)
   createdAt DateTime @default(now())

@@ -9,12 +9,13 @@ type Project = {
   period: string;
   desc: string;
   role: string;
+  image: string;
   tags: string;
   order: number;
 };
 
 const EMPTY: Omit<Project, "id"> = {
-  title: "", client: "", period: "", desc: "", role: "", tags: "", order: 0,
+  title: "", client: "", period: "", desc: "", role: "", image: "", tags: "", order: 0,
 };
 
 export default function ProjectsAdmin() {
@@ -27,7 +28,7 @@ export default function ProjectsAdmin() {
   async function load() {
     const res = await fetch("/api/admin/projects");
     const data = await res.json();
-    setItems(data.map((p: Project) => ({ ...p, tags: JSON.parse(p.tags).join(", ") })));
+    setItems(data.map((p: Project) => ({ ...p, image: p.image ?? "", tags: JSON.parse(p.tags).join(", ") })));
   }
 
   useEffect(() => { load(); }, []);
@@ -40,7 +41,7 @@ export default function ProjectsAdmin() {
 
   function openEdit(item: Project) {
     setEditing(item);
-    setForm({ title: item.title, client: item.client, period: item.period, desc: item.desc, role: item.role, tags: item.tags, order: item.order });
+    setForm({ title: item.title, client: item.client, period: item.period, desc: item.desc, role: item.role, image: item.image, tags: item.tags, order: item.order });
     setIsNew(false);
   }
 
@@ -88,6 +89,13 @@ export default function ProjectsAdmin() {
             <Field label="태그 (쉼표 구분)" value={form.tags} onChange={(v) => setForm({ ...form, tags: v })} />
             <Field label="순서" value={String(form.order)} onChange={(v) => setForm({ ...form, order: Number(v) })} type="number" />
             <div className="md:col-span-2">
+              <Field label="대표 이미지 경로 (예: /projects/halil.jpg · 비우면 기본 헤더)" value={form.image} onChange={(v) => setForm({ ...form, image: v })} />
+              {form.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={form.image} alt="미리보기" className="mt-2 rounded-lg w-full max-w-sm aspect-video object-cover object-top" style={{ border: "1px solid var(--border)" }} />
+              )}
+            </div>
+            <div className="md:col-span-2">
               <Field label="설명" value={form.desc} onChange={(v) => setForm({ ...form, desc: v })} multiline />
             </div>
           </div>
@@ -106,6 +114,12 @@ export default function ProjectsAdmin() {
       <div className="space-y-3">
         {items.map((item) => (
           <div key={item.id} className="p-4 rounded-xl flex items-start justify-between gap-4" style={{ background: "var(--surface)", border: "1px solid var(--border)" }}>
+            {item.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={item.image} alt="" className="w-24 aspect-video rounded object-cover object-top flex-shrink-0" style={{ border: "1px solid var(--border)" }} />
+            ) : (
+              <div className="w-24 aspect-video rounded flex-shrink-0" style={{ background: "var(--surface2)", border: "1px solid var(--border)" }} />
+            )}
             <div className="flex-1 min-w-0">
               <p className="font-medium text-sm truncate" style={{ color: "var(--foreground)" }}>{item.title}</p>
               <p className="text-xs mt-0.5" style={{ color: "var(--accent)" }}>{item.client} · {item.period}</p>
