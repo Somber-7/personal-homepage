@@ -30,12 +30,13 @@ export function ProjectCover({ project, large = false }: { project: Project; lar
   );
 }
 
-export default function ProjectCard({ project }: { project: Project }) {
+// onSurface: 배경이 surface인 섹션 위에 놓일 때 카드 색을 반대로
+export default function ProjectCard({ project, onSurface = false }: { project: Project; onSurface?: boolean }) {
   return (
     <Link
       href={`/projects/${project.id}`}
       className="card-lift group h-full p-5 rounded-xl flex flex-col gap-3 overflow-hidden"
-      style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+      style={{ background: onSurface ? "var(--background)" : "var(--surface)", border: "1px solid var(--border)" }}
     >
       <div className="-mx-5 -mt-5 mb-1 aspect-video overflow-hidden" style={{ borderBottom: "1px solid var(--border)", background: "var(--surface2)" }}>
         <ProjectCover project={project} />
