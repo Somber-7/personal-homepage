@@ -51,6 +51,7 @@ model Project {
   desc      String   @db.Text
   role      String
   image     String?
+  link      String?
   tags      String   @db.Text
   order     Int      @default(0)
   createdAt DateTime @default(now())

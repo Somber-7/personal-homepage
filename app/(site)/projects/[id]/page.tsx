@@ -42,7 +42,7 @@ export default async function ProjectDetailPage({ params }: Params) {
     { label: "기간", value: project.period },
     { label: "구분", value: project.client },
     { label: "역할", value: project.role },
-  ];
+  ].filter((f) => f.value);
 
   return (
     <article className="px-6 pt-28 pb-24">
@@ -59,8 +59,19 @@ export default async function ProjectDetailPage({ params }: Params) {
             {project.title}
           </h1>
           <p className="hero-in mt-3 text-sm font-mono" style={{ color: "var(--accent)", ...d(180) }}>
-            {project.client} · {project.period}
+            {[project.client, project.period].filter(Boolean).join(" · ")}
           </p>
+          {project.link && (
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hero-in group mt-5 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5"
+              style={{ background: "var(--accent)", color: "#0d1117", ...d(220) }}
+            >
+              사이트 방문 <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+            </a>
+          )}
         </div>
 
         <div className={`hero-in group mt-10 overflow-hidden rounded-2xl ${project.image ? "aspect-video" : "h-40 md:h-48"}`} style={{ border: "1px solid var(--border)", background: "var(--surface2)", ...d(260) }}>

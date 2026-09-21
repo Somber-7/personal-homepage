@@ -45,7 +45,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           {project.title}
         </h3>
         <p className="text-xs font-mono" style={{ color: "var(--accent)" }}>
-          {project.client} · {project.period}
+          {[project.client, project.period].filter(Boolean).join(" · ")}
         </p>
       </div>
       <p className="text-xs leading-relaxed flex-1 line-clamp-3" style={{ color: "var(--muted)" }}>{project.desc}</p>
