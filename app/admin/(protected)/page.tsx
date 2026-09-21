@@ -2,8 +2,9 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 
 export default async function AdminDashboard() {
-  const [expCount, projCount, skillCount, certCount] = await Promise.all([
+  const [expCount, eduCount, projCount, skillCount, certCount] = await Promise.all([
     prisma.experience.count(),
+    prisma.education.count(),
     prisma.project.count(),
     prisma.skill.count(),
     prisma.certification.count(),
@@ -11,6 +12,7 @@ export default async function AdminDashboard() {
 
   const stats = [
     { label: "경력", count: expCount, href: "/admin/experiences", color: "var(--accent)" },
+    { label: "교육", count: eduCount, href: "/admin/educations", color: "#79c0ff" },
     { label: "프로젝트", count: projCount, href: "/admin/projects", color: "var(--accent-green)" },
     { label: "기술 스택", count: skillCount, href: "/admin/skills", color: "#d2a8ff" },
     { label: "자격증", count: certCount, href: "/admin/certifications", color: "#ffa657" },
@@ -25,7 +27,7 @@ export default async function AdminDashboard() {
         포트폴리오 데이터를 관리합니다.
       </p>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {stats.map((s) => (
           <Link
             key={s.label}

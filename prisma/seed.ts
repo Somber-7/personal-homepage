@@ -40,16 +40,6 @@ async function main() {
   await prisma.experience.createMany({
     data: [
       {
-        period: "2026.03 ~ 2026.09",
-        duration: "6개월",
-        company: "SK네트웍스 Family AI 캠프 29기",
-        role: "AI 엔지니어링 과정 수료 · 팀 프로젝트 5회 PM",
-        desc: "데이터 분석부터 머신러닝, NLP·LLM, 웹·배포까지 이어지는 커리큘럼을 마치고 팀 프로젝트 다섯 건을 모두 PM 겸 팀 리드로 수행했습니다. 기업참여 최종 프로젝트에서 최우수상을 받았습니다.",
-        tags: J(["LangGraph", "RAG", "PyTorch", "Django", "AWS", "PM"]),
-        isCurrent: false,
-        order: 1,
-      },
-      {
         period: "2025.02 ~ 2026.03",
         duration: "1년 2개월",
         company: "쓰리애니아이앤시",
@@ -68,6 +58,22 @@ async function main() {
         tags: J(["Java", "eGovFramework", "Spring", "PHP", "Oracle", "REST API"]),
         isCurrent: false,
         order: 3,
+      },
+    ],
+  });
+
+  // ── 교육 ───────────────────────────────────────────────────
+  await prisma.education.deleteMany();
+  await prisma.education.createMany({
+    data: [
+      {
+        period: "2026.03 ~ 2026.09",
+        duration: "6개월",
+        name: "SK네트웍스 Family AI 캠프 29기",
+        course: "AI 엔지니어링 과정 수료 · 팀 프로젝트 5회 PM",
+        desc: "데이터 분석부터 머신러닝, NLP·LLM, 웹·배포까지 이어지는 커리큘럼을 마치고 팀 프로젝트 다섯 건을 모두 PM 겸 팀 리드로 수행했습니다. 기업참여 최종 프로젝트에서 최우수상을 받았습니다.",
+        tags: J(["LangGraph", "RAG", "PyTorch", "Django", "AWS", "PM"]),
+        order: 1,
       },
     ],
   });

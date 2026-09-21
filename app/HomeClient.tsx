@@ -16,6 +16,17 @@ type Experience = {
   order: number;
 };
 
+type Education = {
+  id: number;
+  period: string;
+  duration: string;
+  name: string;
+  course: string;
+  desc: string;
+  tags: string[];
+  order: number;
+};
+
 type Project = {
   id: number;
   title: string;
@@ -46,6 +57,7 @@ type Certification = {
 
 type Props = {
   experiences: Experience[];
+  educations: Education[];
   projects: Project[];
   skills: Skill[];
   certifications: Certification[];
@@ -77,6 +89,7 @@ const NAV_LINKS = [
   { href: "#about", label: "소개" },
   { href: "#skills", label: "기술 스택" },
   { href: "#experience", label: "경력" },
+  { href: "#education", label: "교육" },
   { href: "#projects", label: "프로젝트" },
   { href: "#certifications", label: "자격증" },
   { href: "#contact", label: "연락처" },
@@ -342,12 +355,14 @@ function Skills({ skills }: { skills: Skill[] }) {
   );
 }
 
-function Experience({ experiences }: { experiences: Experience[] }) {
+function Experience({ experiences, id = "experience", label = "03", title = "경력" }: {
+  experiences: Experience[]; id?: string; label?: string; title?: string;
+}) {
   const { ref, visible } = useInView();
   return (
-    <section id="experience" className="py-24 px-6">
+    <section id={id} className="py-24 px-6">
       <div className="max-w-5xl mx-auto">
-        <SectionTitle label="03" title="경력" />
+        <SectionTitle label={label} title={title} />
         <div ref={ref} className="mt-12 space-y-6">
           {experiences.map((exp, i) => (
             <div
@@ -399,7 +414,7 @@ function Projects({ projects }: { projects: Project[] }) {
   return (
     <section id="projects" className="py-24 px-6" style={{ background: "var(--surface)" }}>
       <div className="max-w-5xl mx-auto">
-        <SectionTitle label="04" title="프로젝트" />
+        <SectionTitle label="05" title="프로젝트" />
         <div ref={ref} className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
           {projects.map((proj, i) => (
             <div
@@ -469,7 +484,7 @@ function Certifications({ certifications }: { certifications: Certification[] })
   return (
     <section id="certifications" className="py-24 px-6">
       <div className="max-w-5xl mx-auto">
-        <SectionTitle label="05" title="자격증" />
+        <SectionTitle label="06" title="자격증" />
         <div ref={ref} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-12">
           {certifications.map((cert, i) => (
             <div
@@ -506,7 +521,7 @@ function Contact() {
   return (
     <section id="contact" className="py-24 px-6" style={{ background: "var(--surface)" }}>
       <div className="max-w-5xl mx-auto text-center">
-        <SectionTitle label="06" title="연락처" centered />
+        <SectionTitle label="07" title="연락처" centered />
         <p className="mt-4 text-sm" style={{ color: "var(--muted)" }}>새로운 기회나 협업 제안을 환영합니다.</p>
         <div
           ref={ref}
@@ -552,7 +567,7 @@ function Footer() {
 
 // ─── 메인 ─────────────────────────────────────────────────────
 
-export default function HomeClient({ experiences, projects, skills, certifications }: Props) {
+export default function HomeClient({ experiences, educations, projects, skills, certifications }: Props) {
   return (
     <>
       <Navbar />
@@ -561,6 +576,14 @@ export default function HomeClient({ experiences, projects, skills, certificatio
         <About />
         <Skills skills={skills} />
         <Experience experiences={experiences} />
+        {educations.length > 0 && (
+          <Experience
+            id="education"
+            label="04"
+            title="교육"
+            experiences={educations.map((e) => ({ ...e, company: e.name, role: e.course, isCurrent: false }))}
+          />
+        )}
         <Projects projects={projects} />
         <Certifications certifications={certifications} />
         <Contact />

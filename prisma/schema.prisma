@@ -29,6 +29,19 @@ model Experience {
   updatedAt DateTime @updatedAt
 }
 
+model Education {
+  id        Int      @id @default(autoincrement())
+  period    String
+  duration  String
+  name      String
+  course    String
+  desc      String   @db.Text
+  tags      String   @db.Text
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Project {
   id        Int      @id @default(autoincrement())
   title     String

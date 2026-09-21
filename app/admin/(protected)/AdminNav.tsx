@@ -7,6 +7,7 @@ import { signOut } from "next-auth/react";
 const MENUS = [
   { href: "/admin", label: "대시보드" },
   { href: "/admin/experiences", label: "경력" },
+  { href: "/admin/educations", label: "교육" },
   { href: "/admin/projects", label: "프로젝트" },
   { href: "/admin/skills", label: "기술 스택" },
   { href: "/admin/certifications", label: "자격증" },

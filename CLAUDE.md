@@ -31,7 +31,7 @@ Next.js 16 (App Router) · TypeScript · Tailwind v4 · Prisma 6 · PostgreSQL �
 
 - **스키마 변경 시**: `npx prisma db push`로 Neon에 먼저 반영하고 나서 `git push`. 반대로 하면 새 코드가 없는 컬럼을 조회해서 배포된 사이트가 에러 난다
 - 마이그레이션 폴더는 쓰지 않는다(`prisma/migrations.mysql.bak`은 예전 MySQL 시절 백업). 스키마 반영은 `db push`
-- **`npm run db:seed`는 경력·프로젝트·기술·자격증을 전부 지우고 다시 넣는다.** 관리자 화면에서 고친 내용이 날아가므로 초기화할 때만 쓴다. 실행에는 `ADMIN_PASSWORD`(10자 이상) 환경변수가 필요하다
+- **`npm run db:seed`는 경력·교육·프로젝트·기술·자격증을 전부 지우고 다시 넣는다.** 관리자 화면에서 고친 내용이 날아가므로 초기화할 때만 쓴다. 실행에는 `ADMIN_PASSWORD`(10자 이상) 환경변수가 필요하다
 - 이미지 경로만 바꿀 때는 `npm run db:images`(`prisma/set-images.ts`) — 제목 기준으로 image만 갱신, 다른 데이터와 관리자 계정은 건드리지 않음
 - 내용(경력·프로젝트 문구) 수정은 가능하면 코드 대신 관리자 화면에서 한다
 - `build` 스크립트에 `prisma generate`가 들어 있어야 Vercel 빌드가 된다. 빼지 말 것
