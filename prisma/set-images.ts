@@ -14,7 +14,6 @@ const IMAGES: [string, string][] = [
   ["Astell&Kern 브랜드·제품 사이트", "/projects/site-ak.jpg"],
   ["현대웰딩 B2B 제품 카탈로그", "/projects/site-hw.jpg"],
   ["GQA 교육 신청·수료증 시스템", "/projects/site-gqa.jpg"],
-  ["RunPod Serverless 문서 처리 워커", "/projects/runpod.jpg"],
   ["개인 포트폴리오 홈페이지", "/projects/homepage.jpg"],
   ["제8회 K-디지털 트레이닝 해커톤", "/projects/hackathon.jpg"],
 ];
