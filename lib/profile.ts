@@ -14,7 +14,7 @@ export const STATS = [
   { value: "5년 4개월", label: "웹 개발 경력", sub: "공공 SI · 웹에이전시" },
   { value: "7종", label: "한전 시스템 상시 유지보수", sub: "그룹웨어 · VPN, 4년" },
   { value: "200개 이상", label: "구축 · 유지보수 사이트", sub: "웹에이전시 프로그램파트" },
-  { value: "16종", label: "에이전트 도구 구현", sub: "halil · AI 캠프 최우수상" },
+  { value: "최우수상", label: "AI 캠프 최종 프로젝트", sub: "halil · 7주 · 5명" },
 ];
 
 export const STRENGTHS = [
