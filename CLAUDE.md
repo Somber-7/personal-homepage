@@ -16,7 +16,7 @@ Next.js 16 (App Router) · TypeScript · Tailwind v4 · Prisma 6 · PostgreSQL �
 
 - 공개 페이지: `app/(site)/` 아래 `/`(홈 = 한 페이지 이력서: 머리·핵심 역량·경력·교육·대표 프로젝트·기술·자격증·수상), `/projects`, `/projects/[id]`. 예전 `/about`·`/career`는 `next.config.ts`에서 홈 위치로 넘긴다. DB 조회는 `lib/portfolio.ts`, 공통 컴포넌트는 `app/components/`
 - 인적 사항·핵심 숫자·핵심 역량·수상은 DB가 아니라 `lib/profile.ts`에 있다
-- 경력·교육의 `desc`와 프로젝트의 `work`·`solution`·`result`는 한 줄에 하나씩 bullet로 나온다(`app/components/Bullets.tsx`, "라벨: 내용"이면 라벨이 굵게). 프로젝트 세 칸이 비면 상세 페이지에 '준비 중'
+- 경력·교육의 `desc`와 프로젝트의 `work`·`solution`·`result`는 한 줄에 하나씩 bullet로 나온다(`app/components/Bullets.tsx`, "라벨: 내용"이면 라벨이 굵게). 프로젝트 세 칸 중 비운 칸은 상세 페이지에 나오지 않는다
 - 경력기술서 PDF는 `public/career-imjun.pdf`로 내려받는다. `D:\SKN_AI_Bootcamp\포트폴리오\경력기술서_임준.pdf`를 다시 만들면 이 파일도 덮어쓴다
 - 공개 페이지는 빌드 때 정적으로 만들어진다. 관리자 API는 저장 후 `revalidatePath("/", "layout")`으로 전체를 갱신하므로, 새 관리자 API를 만들면 이 호출을 꼭 넣는다
 - 디자인: 밝은 바탕 + 먹색 글자(`globals.css` `:root`, 포인트 색은 `--accent` 하나), 글꼴은 Pretendard 하나(`app/layout.tsx`의 CDN, 제목은 굵게 + 좁은 자간), 모노는 날짜·태그에만. 움직임은 페이지 첫 화면의 `hero-in`만 쓴다. 스크롤 등장 효과·격자 배경·빛·모노 라벨은 일부러 뺐다

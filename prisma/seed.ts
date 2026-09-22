@@ -28,10 +28,10 @@ async function main() {
   await prisma.skill.createMany({
     data: [
       { category: "언어", items: J(["PHP", "Java", "JavaScript", "TypeScript", "Python", "SQL"]), isLearning: false, order: 1 },
-      { category: "웹 · 프레임워크", items: J(["eGovFramework", "Spring", "MyBatis", "JSP", "jQuery", "Django", "DRF", "FastAPI", "React", "Next.js"]), isLearning: false, order: 2 },
+      { category: "웹 · 프레임워크", items: J(["eGovFramework", "Spring", "MyBatis", "JSP", "jQuery", "Django", "DRF", "FastAPI", "React", "Next.js", "Android"]), isLearning: false, order: 2 },
       { category: "데이터베이스", items: J(["Oracle", "MySQL", "MariaDB", "PostgreSQL", "Altibase", "Tibero"]), isLearning: false, order: 3 },
       { category: "AI · 데이터", items: J(["LangChain", "LangGraph", "deepagents", "MCP", "RAG", "ChromaDB", "pgvector", "Neo4j", "scikit-learn", "LightGBM", "XGBoost", "PyTorch", "pandas", "LoRA / QLoRA"]), isLearning: false, order: 4 },
-      { category: "인프라 · 배포", items: J(["Linux", "Apache", "Nginx", "Docker", "Docker Compose", "AWS EC2 / RDS / S3", "GitHub Actions", "Gunicorn"]), isLearning: false, order: 5 },
+      { category: "인프라 · 배포", items: J(["Linux", "Apache", "Nginx", "Docker", "Docker Compose", "AWS EC2 / RDS / S3", "GitHub Actions", "Gunicorn", "WebLogic", "Tomcat"]), isLearning: false, order: 5 },
     ],
   });
 
@@ -55,8 +55,8 @@ async function main() {
         duration: "4년 2개월",
         company: "㈜그리드텍",
         role: "솔루션사업부 대리 · 웹 개발",
-        desc: "한국전력공사 사내 그룹웨어·업무 시스템 6~9종 상시 유지보수\n한전·교육부 SI 프로젝트 5건 수행 (전자정부 표준프레임워크 기반 신규 개발, 타 시스템 연계)\nLinux 서버 구축·운영",
-        tags: J(["Java", "eGovFramework", "Spring", "PHP", "Oracle", "REST API"]),
+        desc: "상시 유지보수: 한전 그룹웨어(웹결재 · 메일서비스 연동 · WEB2.0 확장모듈 · 웹하드 엔진 · 웹하드 모바일 앱 · 웹문서 관리)와 VPN 신청 페이지 등 7종\nSI 프로젝트: 한전 · 한전KDN · 한전 전력연구원 · 교육부 발주 5건 (전자정부 표준프레임워크 기반 신규 개발, 타 시스템 연계)\n서버: Linux 서버 구축 · 운영 (Apache · WebLogic · Tomcat)\n직급: 그룹웨어개발1팀 사원(2020.01~) → 솔루션사업부 대리(2022.04~)",
+        tags: J(["Java", "PHP", "eGovFramework", "Spring", "Oracle", "Altibase", "WebLogic", "Linux"]),
         isCurrent: false,
         order: 3,
       },
@@ -98,7 +98,7 @@ async function main() {
   });
 
   // ── 프로젝트 ───────────────────────────────────────────────
-  // work(맡은 일)·solution(구현과 문제 해결)·result(결과)는 한 줄에 하나씩. 비우면 상세 페이지에 '준비 중'
+  // work(맡은 일)·solution(구현과 문제 해결)·result(결과)는 한 줄에 하나씩. 비운 칸은 상세 페이지에 나오지 않는다
   await prisma.project.deleteMany();
   await prisma.project.createMany({
     data: [
@@ -114,7 +114,7 @@ async function main() {
         result: "예선 참가, 본선 미진출",
         role: "팀 참가",
         tags: J(["LangGraph", "Multi-Agent", "RAG", "VectorDB"]),
-        order: 18,
+        order: 19,
       },
       {
         title: "개인 포트폴리오 홈페이지",
@@ -129,7 +129,7 @@ async function main() {
         role: "단독 개발",
         link: "https://imjune.vercel.app",
         tags: J(["Next.js", "TypeScript", "Prisma", "PostgreSQL", "NextAuth", "Tailwind CSS", "Vercel"]),
-        order: 17,
+        order: 18,
       },
       {
         title: "Stock Analyze · 주식 분석 데스크톱 앱",
@@ -142,7 +142,7 @@ async function main() {
         result: "설치형과 무설치 실행형으로 배포",
         role: "단독 개발",
         tags: J(["React", "Electron", "FastAPI", "TypeScript", "pytest"]),
-        order: 16,
+        order: 17,
       },
       {
         title: "GQA 교육 신청·수료증 시스템",
@@ -154,7 +154,7 @@ async function main() {
         role: "개발 담당",
         link: "https://gqa.co.kr",
         tags: J(["PHP"]),
-        order: 15,
+        order: 16,
       },
       {
         title: "현대웰딩 B2B 제품 카탈로그",
@@ -166,7 +166,7 @@ async function main() {
         role: "개발 담당",
         link: "https://products.hyundaiwelding.com",
         tags: J(["PHP"]),
-        order: 14,
+        order: 15,
       },
       {
         title: "Astell&Kern 브랜드·제품 사이트",
@@ -178,7 +178,7 @@ async function main() {
         role: "개발 담당",
         link: "https://www.astellnkern.com",
         tags: J(["PHP", "AWS"]),
-        order: 13,
+        order: 14,
       },
       {
         title: "KT그룹희망나눔재단 웹사이트",
@@ -190,7 +190,7 @@ async function main() {
         role: "개발 담당",
         link: "https://ktgf.or.kr",
         tags: J(["PHP"]),
-        order: 12,
+        order: 13,
       },
       {
         title: "웹에이전시 웹사이트 구축·유지보수 (200개 이상)",
@@ -201,29 +201,30 @@ async function main() {
         work: "신규 개발: PHP 동적 처리 · 관리자(CMS) 구성 · 오픈\n유지보수: 기능 수정 · 장애와 보안 이슈 대응 · 백업 · 서버 이전\n서버 운영: Linux(Apache/PHP/MySQL) 설정 · 배포 · 도메인·SSL · 로그 점검\n외부 연동: PG 결제 · 문자·알림톡 · 지도·주소 API · 소셜 로그인",
         role: "개발 담당",
         tags: J(["PHP", "MySQL", "jQuery", "Linux"]),
-        order: 11,
+        order: 12,
       },
       {
         title: "한전 AMI 2.0 스마트미터링 장치관리",
-        client: "한국전력공사 (3인)",
+        client: "한전 전력연구원 (3인)",
         org: "㈜그리드텍",
         period: "2020.07 ~ 2020.11",
-        desc: "전자정부 표준프레임워크로 AMI 장치의 자동 검침 데이터를 관리하고 통계로 보여 주는 페이지의 화면과 기능을 구현했습니다.",
+        desc: "AMI 2.0 스마트미터링 장치관리 모델을 세우고 유효성을 검증하는 과제에서, 전자정부 표준프레임워크로 AMI 장치의 자동 검침 데이터를 관리하고 통계로 보여 주는 페이지의 화면과 기능을 구현했습니다.",
         work: "AMI 검침 데이터 관리·통계 화면·기능 구현",
         role: "화면 · 기능 구현",
-        tags: J(["Java", "eGovFramework", "통계"]),
-        order: 10,
+        tags: J(["Java", "eGovFramework", "JSP", "jQuery", "Oracle", "통계"]),
+        order: 11,
       },
       {
         title: "한전 모바일 스마트워크 플랫폼 구축",
         client: "한국전력공사 (6인)",
         org: "㈜그리드텍",
         period: "2020.09 ~ 2021.03",
-        desc: "사내 신규 웹하드 시스템 도입에 따라 Linux 서버를 구축·관리하고 연계사 사이의 커뮤니케이션을 담당했습니다. 프로젝트 종료 후에는 해당 시스템의 전반적인 유지보수를 이어서 맡았습니다.",
-        work: "Linux 서버 구축·관리\n연계사 조율\n프로젝트 종료 후 시스템 유지보수",
+        desc: "한전 사내 그룹웨어 웹하드 시스템을 도입하는 사업으로, Linux 서버를 구축·관리하고 협력사(엑스소프트)와의 커뮤니케이션을 맡았습니다. 이후 웹하드 엔진·모바일 앱·웹문서 관리 유지보수로 이어졌습니다.",
+        work: "그룹웨어 웹하드 도입: Linux 서버 구축·관리\n협력사(엑스소프트) 간 조율\n프로젝트 종료 후 시스템 유지보수",
+        result: "웹하드 엔진 · 웹하드 모바일 앱 · 웹문서 관리 상시 유지보수로 이어짐 (2022.04~2024.01)",
         role: "서버 구축 · 운영 · 연계사 커뮤니케이션",
-        tags: J(["Linux", "Altibase", "서버 운영"]),
-        order: 9,
+        tags: J(["Linux", "Java", "JSP", "Altibase", "서버 운영"]),
+        order: 10,
       },
       {
         title: "한전 공사현장 모니터링 시스템 개선",
@@ -233,19 +234,19 @@ async function main() {
         desc: "PHP로 신규 웹페이지와 모바일용 WebApp 화면·기능을 구현했고, 다수의 REST API를 설계·연계해 사내 타 시스템 및 모바일 웹과 데이터를 주고받도록 했습니다.",
         work: "PHP 웹·모바일 WebApp 화면·기능 구현\nREST API 설계·연계",
         role: "화면 · 기능 구현 · API 연계",
-        tags: J(["PHP", "REST API", "WebApp", "jQuery"]),
-        order: 8,
+        tags: J(["PHP", "REST API", "WebApp", "jQuery", "WebLogic", "Linux"]),
+        order: 9,
       },
       {
         title: "한전 기록물철관리 SW 개발 용역",
-        client: "한국전력공사 (6인)",
+        client: "한전KDN (6인)",
         org: "㈜그리드텍",
         period: "2023.04 ~ 2023.08",
         desc: "전자정부 표준프레임워크 기반으로 한전 사내 기록물 보관 웹페이지의 화면과 기능을 구현했습니다.",
         work: "기록물 보관 웹페이지 화면·기능 구현",
         role: "화면 · 기능 구현",
-        tags: J(["Java", "eGovFramework", "JSP"]),
-        order: 7,
+        tags: J(["Java", "eGovFramework", "JSP", "jQuery", "Oracle"]),
+        order: 8,
       },
       {
         title: "교육부 정보시스템 기능강화 사업",
@@ -257,7 +258,18 @@ async function main() {
         solution: "문제: 인사 정보를 수작업으로 반영해 인사이동 시기마다 처리가 밀리고 시스템 간 데이터가 어긋남\n해결: Excel 업로드 → eGovFramework 배치 일괄 반영, 반영 전 확인·예약 적용 화면 추가\n해결: 실제와 다른 연계 문서를 협력 부서와 바로잡고 Web Service 규격을 다시 정해 온나라 2.0 연계",
         result: "수작업 반영을 업로드와 배치로 대체\n시스템 간 전송 오류와 불일치 감소",
         role: "설계 · 기능 구현 · 타 시스템 연계",
-        tags: J(["Java", "eGovFramework", "MyBatis", "Web Service", "배치 처리"]),
+        tags: J(["Java", "eGovFramework", "MyBatis", "Tibero", "jQuery", "Web Service", "배치 처리"]),
+        order: 7,
+      },
+      {
+        title: "한전 그룹웨어 상시 유지보수 (7종)",
+        client: "한전KDN · 한국전력공사",
+        org: "㈜그리드텍",
+        period: "2020.01 ~ 2024.01",
+        desc: "재직 기간 내내 한전 사내 그룹웨어 패키지와 VPN 신청 페이지를 상시 유지보수했습니다.",
+        work: "웹결재: PHP · Apache · WebLogic · Oracle (2020.01~2024.01)\n웹기반 메일서비스 연동: PHP · WebLogic · Oracle · Linux (2020.01~2024.01)\nWEB2.0 확장모듈: PHP · WebLogic · Oracle (2020.01~2024.01)\nVPN 신청 페이지 연계 경로 개선: PHP · MySQL · WebLogic · Linux, 한국전력공사 발주 (2020.01~2024.01)\n웹하드 엔진: Java · Tomcat · Altibase · Linux (2022.04~2024.01)\n웹하드 모바일 앱: Java · Tomcat · Altibase · Android (2022.04~2024.01)\n웹문서 관리: Java · Tomcat · Altibase · Linux (2022.04~2024.01)",
+        role: "유지보수 · 개선",
+        tags: J(["PHP", "Java", "Oracle", "Altibase", "WebLogic", "Tomcat", "Android", "Linux"]),
         order: 6,
       },
       {

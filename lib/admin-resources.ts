@@ -56,7 +56,7 @@ export const RESOURCES = {
       { name: "image", label: "대표 이미지 경로", wide: true, hint: "예: /projects/halil.jpg · 비우면 기본 헤더" },
       { name: "tags", label: "기술 태그", kind: "list", wide: true, hint: "쉼표로 구분" },
       { name: "desc", label: "개요", kind: "textarea", wide: true, rows: 4 },
-      { name: "work", label: "맡은 일", kind: "textarea", wide: true, rows: 5, hint: `${BULLET_HINT} · 비우면 상세 페이지에 '준비 중'` },
+      { name: "work", label: "맡은 일", kind: "textarea", wide: true, rows: 5, hint: `${BULLET_HINT} · 비운 칸은 상세 페이지에 나오지 않는다` },
       { name: "solution", label: "구현과 문제 해결", kind: "textarea", wide: true, rows: 6, hint: BULLET_HINT },
       { name: "result", label: "결과", kind: "textarea", wide: true, rows: 4, hint: BULLET_HINT },
     ],

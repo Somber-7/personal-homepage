@@ -20,7 +20,7 @@ export const STATS = [
 
 export const STRENGTHS = [
   { title: "백엔드 · 운영", desc: "화면과 API부터 Linux 서버, DB, 외부 연동, 장애 대응까지" },
-  { title: "적응력", desc: "한전 시스템 6~9종 동시 유지보수, 에이전시 200개 이상 사이트" },
+  { title: "적응력", desc: "한전 그룹웨어 등 7종 상시 유지보수, 에이전시 200개 이상 사이트" },
   { title: "AI 확장 · 리드", desc: "LLM · RAG · 에이전트 서비스 구현, 팀 프로젝트 5회 PM" },
 ];
 

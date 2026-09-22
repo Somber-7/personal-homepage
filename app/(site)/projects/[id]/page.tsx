@@ -44,12 +44,12 @@ export default async function ProjectDetailPage({ params }: Params) {
     { label: "역할", value: project.role },
   ].filter((f) => f.value);
 
-  // 상세 칸. 비어 있으면 자리만 두고 '준비 중'으로 표시한다
+  // 상세 칸. 비어 있는 칸은 보여 주지 않는다
   const details = [
     { title: "맡은 일", text: project.work },
     { title: "구현과 문제 해결", text: project.solution },
     { title: "결과", text: project.result },
-  ];
+  ].filter((s) => s.text.trim());
 
   return (
     <article className="px-6 pt-28 pb-24">
@@ -94,11 +94,7 @@ export default async function ProjectDetailPage({ params }: Params) {
             {details.map((s) => (
               <section key={s.title}>
                 <h2 className="text-xl font-bold pb-3 mb-4" style={{ color: "var(--foreground)", borderBottom: "1px solid var(--border)" }}>{s.title}</h2>
-                {s.text.trim() ? (
-                  <Bullets text={s.text} className="text-base" />
-                ) : (
-                  <p className="text-sm" style={{ color: "var(--muted)" }}>준비 중</p>
-                )}
+                <Bullets text={s.text} className="text-base" />
               </section>
             ))}
           </div>
