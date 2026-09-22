@@ -6,6 +6,7 @@
 
 - 주소: https://imjune.vercel.app (예전 `personal-homepage-tau-plum.vercel.app`은 307로 넘어감)
 - 배포: Vercel Hobby, 팀 `portfolio-516c`, 프로젝트 `personal-homepage`. `main`에 push하면 자동 배포
+- 서버 함수 지역: 싱가포르 `sin1` (`vercel.json`). DB와 같은 지역이어야 관리자 페이지·API가 빠르다. 기본값(미국 iad1)으로 두면 쿼리마다 태평양을 건너 관리자 페이지가 수 초씩 걸린다
 - DB: Neon PostgreSQL (무료 플랜, Singapore). 놀고 있으면 절전되어 첫 요청이 1초쯤 느린 건 정상
 - 저장소: github.com/Somber-7/personal-homepage (비공개)
 
