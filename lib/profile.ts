@@ -4,7 +4,6 @@ export const PROFILE = {
   title: "웹 백엔드 개발자",
   summary: "공공 SI · 웹에이전시 백엔드 실무, LLM · 에이전트 서비스 개발",
   email: "true_j@naver.com",
-  phone: "010-5024-7939",
   github: "https://github.com/Somber-7",
   // 경력기술서 PDF. D:\SKN_AI_Bootcamp\포트폴리오\경력기술서_임준.pdf를 다시 만들면 public/에도 복사한다
   pdf: "/career-imjun.pdf",
@@ -26,7 +25,12 @@ export const STRENGTHS = [
 
 export const AWARDS = [
   { year: "2026", name: "최우수상", org: "SK네트웍스 Family AI 캠프 기업참여 프로젝트" },
-  { year: "2019", name: "모범상", org: "청년취업아카데미 개발자과정" },
-  { year: "2019", name: "우수상", org: "순천대 학생 우수성과 발표경진대회" },
-  { year: "2018", name: "은상", org: "순천대 창의설계·벤처프로젝트 경진대회" },
 ];
+
+// 그리드텍 퇴사와 쓰리애니 입사 사이. 홈 경력 목록에 기간 순으로 끼워 넣는다
+export const CAREER_GAP = {
+  period: "2024.03 ~ 2025.01",
+  duration: "11개월",
+  title: "휴식 · 이직 준비",
+  desc: "장기 파견 뒤 건강 회복 (3개월)\n이직 준비, 서울로 이주",
+};

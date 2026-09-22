@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { getCertifications, getEducations, getExperiences, getProjects, getSkills, groupByOrg, type Project } from "@/lib/portfolio";
-import { AWARDS, PROFILE, STATS, STRENGTHS } from "@/lib/profile";
+import { AWARDS, CAREER_GAP, PROFILE, STATS, STRENGTHS } from "@/lib/profile";
 import Bullets from "../components/Bullets";
 import { ProjectCover } from "../components/ProjectCard";
 import { Tag } from "../components/ui";
@@ -36,18 +36,13 @@ export default async function Home() {
       </Section>
 
       <Section id="experience" title="경력" aside="총 5년 4개월">
-        {experiences.map((e) => (
-          <Entry
-            key={e.id}
-            period={e.period}
-            duration={e.duration}
-            title={e.company}
-            sub={e.role}
-            body={e.desc}
-            tags={e.tags}
-            current={e.isCurrent}
-          />
-        ))}
+        {/* 회사 경력과 공백 기간을 시작 시점 최신순으로 */}
+        {[
+          ...experiences.map((e) => ({ key: `e${e.id}`, period: e.period, duration: e.duration, title: e.company, sub: e.role, body: e.desc, tags: e.tags, current: e.isCurrent })),
+          { key: "gap", ...CAREER_GAP, sub: "", body: CAREER_GAP.desc, tags: [] as string[], current: false },
+        ]
+          .sort((a, b) => b.period.localeCompare(a.period))
+          .map(({ key, ...e }) => <Entry key={key} {...e} />)}
       </Section>
 
       <Section id="education" title="교육 · 학력">
@@ -106,7 +101,6 @@ function Hero() {
   const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
   const contacts = [
     { label: "이메일", value: PROFILE.email, href: `mailto:${PROFILE.email}` },
-    { label: "전화", value: PROFILE.phone, href: `tel:${PROFILE.phone}` },
     { label: "GitHub", value: PROFILE.github.replace("https://", ""), href: PROFILE.github },
   ];
   return (
@@ -193,7 +187,7 @@ function Entry({ period, duration, title, sub, body, tags, current }: {
       </div>
       <div>
         <h3 className="text-xl font-bold" style={{ color: "var(--foreground)" }}>{title}</h3>
-        <p className="mt-1 text-base font-medium" style={{ color: "var(--accent)" }}>{sub}</p>
+        {sub && <p className="mt-1 text-base font-medium" style={{ color: "var(--accent)" }}>{sub}</p>}
         <Bullets text={body} className="mt-4 text-[15px]" />
         {tags.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-1.5">

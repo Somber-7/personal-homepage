@@ -4,7 +4,6 @@ import { PROFILE } from "@/lib/profile";
 export default function SiteFooter() {
   const links = [
     { href: `mailto:${PROFILE.email}`, label: "이메일", value: PROFILE.email },
-    { href: `tel:${PROFILE.phone}`, label: "전화", value: PROFILE.phone },
     { href: PROFILE.github, label: "GitHub", value: PROFILE.github.replace("https://", "") },
     { href: PROFILE.pdf, label: "경력기술서", value: "PDF 받기" },
   ];

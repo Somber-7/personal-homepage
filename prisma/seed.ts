@@ -94,7 +94,7 @@ async function main() {
         period: "2014.03 ~ 2020.02",
         duration: "졸업",
         name: "순천대학교",
-        course: "전기전자공학부 전자전공 졸업 · 학점 3.29 / 4.5",
+        course: "전기전자공학부 전자전공 졸업",
         desc: "",
         tags: J([]),
         order: 3,
@@ -365,11 +365,6 @@ async function main() {
       { name: "PCCP · 파이썬 코딩 전문 역량 인증", org: "프로그래머스", year: "2026", order: 1 },
       { name: "PCSQL · SQL 전문 역량 인증", org: "프로그래머스", year: "2026", order: 2 },
       { name: "정보처리기사", org: "한국산업인력공단", year: "2019.11", order: 3 },
-      { name: "전기기능사", org: "한국산업인력공단", year: "2013.07", order: 4 },
-      { name: "전자기능사", org: "한국산업인력공단", year: "2013.04", order: 5 },
-      { name: "프로그래밍기능사", org: "한국산업인력공단", year: "2011.07", order: 6 },
-      { name: "컴퓨터그래픽기능사", org: "한국산업인력공단", year: "2011.04", order: 7 },
-      { name: "컴퓨터활용능력 1급", org: "대한상공회의소", year: "2011.03", order: 8 },
     ],
   });
 
