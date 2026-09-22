@@ -31,7 +31,8 @@ export default function AdminNav() {
             Admin
           </span>
           {MENUS.map((m) => {
-            const active = pathname === m.href;
+            // 수정 페이지(/admin/projects/3 등)에서도 해당 메뉴를 켠다
+            const active = m.href === "/admin" ? pathname === "/admin" : pathname.startsWith(m.href);
             return (
               <Link
                 key={m.href}

@@ -1,48 +1,42 @@
-import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { emptyDetailCount, listRows } from "@/lib/admin-data";
+import { RESOURCES, type ResourceKey } from "@/lib/admin-resources";
 
 export default async function AdminDashboard() {
-  const [expCount, eduCount, projCount, skillCount, certCount] = await Promise.all([
-    prisma.experience.count(),
-    prisma.education.count(),
-    prisma.project.count(),
-    prisma.skill.count(),
-    prisma.certification.count(),
-  ]);
-
-  const stats = [
-    { label: "경력", count: expCount, href: "/admin/experiences", color: "var(--accent)" },
-    { label: "교육", count: eduCount, href: "/admin/educations", color: "#1d4ed8" },
-    { label: "프로젝트", count: projCount, href: "/admin/projects", color: "var(--accent-green)" },
-    { label: "기술 스택", count: skillCount, href: "/admin/skills", color: "#6d28d9" },
-    { label: "자격증", count: certCount, href: "/admin/certifications", color: "#a16207" },
-  ];
+  const keys = Object.keys(RESOURCES) as ResourceKey[];
+  const lists = await Promise.all(keys.map((k) => listRows(k)));
+  const projects = lists[keys.indexOf("projects")];
+  const unfinished = projects.filter((p) => emptyDetailCount(p) > 0).length;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-1" style={{ color: "var(--foreground)" }}>
-        대시보드
-      </h1>
-      <p className="text-sm mb-8" style={{ color: "var(--muted)" }}>
-        포트폴리오 데이터를 관리합니다.
-      </p>
-
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        {stats.map((s) => (
-          <Link
-            key={s.label}
-            href={s.href}
-            className="p-6 rounded-xl text-center transition-colors hover:border-[var(--accent)]"
-            style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
-          >
-            <p className="text-3xl font-bold mb-1" style={{ color: s.color }}>
-              {s.count}
-            </p>
-            <p className="text-sm" style={{ color: "var(--muted)" }}>
-              {s.label}
-            </p>
-          </Link>
-        ))}
+      <h1 className="text-2xl font-bold mb-6" style={{ color: "var(--foreground)" }}>대시보드</h1>
+      <div className="overflow-x-auto rounded-lg" style={{ border: "1px solid var(--border)" }}>
+        <table className="w-full text-sm">
+          <thead>
+            <tr style={{ background: "var(--surface)", borderBottom: "1px solid var(--border)" }}>
+              {["항목", "건수", "비고", "관리"].map((h) => (
+                <th key={h} className="px-3 py-2.5 text-left text-xs font-semibold" style={{ color: "var(--muted)" }}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {keys.map((k, i) => (
+              <tr key={k} style={{ borderBottom: "1px solid var(--border)" }}>
+                <td className="px-3 py-2.5 font-medium" style={{ color: "var(--foreground)" }}>{RESOURCES[k].label}</td>
+                <td className="px-3 py-2.5" style={{ color: "var(--foreground)" }}>{lists[i].length}건</td>
+                <td className="px-3 py-2.5" style={{ color: unfinished && k === "projects" ? "var(--accent)" : "var(--muted)" }}>
+                  {k === "projects" && unfinished > 0 ? `상세 칸이 빈 프로젝트 ${unfinished}건` : ""}
+                </td>
+                <td className="px-3 py-2.5">
+                  <Link href={`/admin/${k}`} className="px-2.5 py-1 rounded text-xs" style={{ border: "1px solid var(--border)", color: "var(--foreground)" }}>
+                    관리
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

@@ -20,6 +20,7 @@ Next.js 16 (App Router) · TypeScript · Tailwind v4 · Prisma 6 · PostgreSQL �
 - 공개 페이지는 빌드 때 정적으로 만들어진다. 관리자 API는 저장 후 `revalidatePath("/", "layout")`으로 전체를 갱신하므로, 새 관리자 API를 만들면 이 호출을 꼭 넣는다
 - 디자인: 밝은 바탕 + 먹색 글자(`globals.css` `:root`, 포인트 색은 `--accent` 하나), 글꼴은 Pretendard 하나(`app/layout.tsx`의 CDN, 제목은 굵게 + 좁은 자간), 모노는 날짜·태그에만. 움직임은 페이지 첫 화면의 `hero-in`만 쓴다. 스크롤 등장 효과·격자 배경·빛·모노 라벨은 일부러 뺐다
 - 관리자: `/admin/login`, `app/admin/(protected)/*`, API는 `app/api/admin/*` (세션 필수)
+  - 항목(경력·교육·프로젝트·기술 스택·자격증)마다 목록 표 `/admin/[항목]`, 추가 `/admin/[항목]/new`, 수정 `/admin/[항목]/[id]`. 입력 칸은 `lib/admin-resources.ts`, 표 열은 `app/admin/(protected)/[resource]/page.tsx`의 `COLUMNS`, 조회는 `lib/admin-data.ts`. 칸을 추가하면 이 세 곳과 해당 API를 함께 고친다
 - `tags`, `items`는 DB에 JSON 문자열로 저장하고 읽을 때 `JSON.parse`
 - 프로젝트 대표 이미지: `public/projects/*.jpg`(1200×675), DB `Project.image`에 `/projects/파일명.jpg`로 저장. 없으면 카드에 기본 헤더가 나온다
 
