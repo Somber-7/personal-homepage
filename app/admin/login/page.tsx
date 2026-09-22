@@ -24,6 +24,8 @@ export default function LoginPage() {
     setLoading(false);
     if (result?.ok) {
       router.push("/admin");
+    } else if (result?.error === "LOCKED") {
+      setError("로그인 시도가 너무 많습니다. 15분 뒤에 다시 시도하세요.");
     } else {
       setError("아이디 또는 비밀번호가 올바르지 않습니다.");
     }
@@ -39,8 +41,8 @@ export default function LoginPage() {
         style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
       >
         <div className="text-center mb-8">
-          <p className="font-mono text-sm mb-1" style={{ color: "var(--accent)" }}>
-            &lt;관리자 /&gt;
+          <p className="text-sm mb-1" style={{ color: "var(--muted)" }}>
+            관리자
           </p>
           <h1 className="text-xl font-bold" style={{ color: "var(--foreground)" }}>
             로그인

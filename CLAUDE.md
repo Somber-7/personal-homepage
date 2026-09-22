@@ -8,7 +8,7 @@
 - 배포: Vercel Hobby, 팀 `portfolio-516c`, 프로젝트 `personal-homepage`. `main`에 push하면 자동 배포
 - 서버 함수 지역: 싱가포르 `sin1` (`vercel.json`). DB와 같은 지역이어야 관리자 페이지·API가 빠르다. 기본값(미국 iad1)으로 두면 쿼리마다 태평양을 건너 관리자 페이지가 수 초씩 걸린다
 - DB: Neon PostgreSQL (무료 플랜, Singapore). 놀고 있으면 절전되어 첫 요청이 1초쯤 느린 건 정상
-- 저장소: github.com/Somber-7/personal-homepage (비공개)
+- 저장소: github.com/Somber-7/personal-homepage (공개)
 
 ## 스택
 
@@ -23,8 +23,9 @@ Next.js 16 (App Router) · TypeScript · Tailwind v4 · Prisma 6 · PostgreSQL �
 - 경력기술서 PDF는 `public/career-imjun.pdf`로 내려받는다. `D:\SKN_AI_Bootcamp\포트폴리오\경력기술서_임준.pdf`를 다시 만들면 이 파일도 덮어쓴다
 - 공개 페이지는 빌드 때 정적으로 만들어진다. 관리자 API는 저장 후 `revalidatePath("/", "layout")`으로 전체를 갱신하므로, 새 관리자 API를 만들면 이 호출을 꼭 넣는다
 - 디자인: 밝은 바탕 + 먹색 글자(`globals.css` `:root`, 포인트 색은 `--accent` 하나), 글꼴은 Pretendard 하나(`app/layout.tsx`의 CDN, 제목은 굵게 + 좁은 자간), 모노는 날짜·태그에만. 움직임은 페이지 첫 화면의 `hero-in`만 쓴다. 스크롤 등장 효과·격자 배경·빛·모노 라벨은 일부러 뺐다
-- 관리자: `/admin/login`, `app/admin/(protected)/*`, API는 `app/api/admin/*` (세션 필수)
-  - 항목(경력·교육·프로젝트·기술 스택·자격증)마다 목록 표 `/admin/[항목]`, 추가 `/admin/[항목]/new`, 수정 `/admin/[항목]/[id]`. 입력 칸은 `lib/admin-resources.ts`, 표 열은 `app/admin/(protected)/[resource]/page.tsx`의 `COLUMNS`, 조회는 `lib/admin-data.ts`. 칸을 추가하면 이 세 곳과 해당 API를 함께 고친다
+- 관리자: `/admin/login`, `app/admin/(protected)/*`, API는 `app/api/admin/[resource]`·`[resource]/[id]` 두 파일이 다섯 항목을 모두 처리한다(세션 필수). 입력 칸은 `lib/admin-resources.ts`에만 추가하면 화면과 zod 검증(`lib/admin-schema.ts`)이 따라온다. 비우면 안 되는 칸은 `required: true`
+  - 항목(경력·교육·프로젝트·기술 스택·자격증)마다 목록 표 `/admin/[항목]`, 추가 `/admin/[항목]/new`, 수정 `/admin/[항목]/[id]`. 입력 칸은 `lib/admin-resources.ts`, 표 열은 `app/admin/(protected)/[resource]/page.tsx`의 `COLUMNS`, 조회는 `lib/admin-data.ts`. 칸을 추가하면 이 세 곳을 고친다(API 검증은 설정을 따라온다)
+- 로그인 시도 제한: `lib/login-limit.ts`, 기록은 DB `LoginAttempt`. 아이디·IP별 15분에 5회 실패면 잠금. 로컬에서 비밀번호를 여러 번 틀리면 `ip:::1`도 잠기니 15분 기다린다
 - `tags`, `items`는 DB에 JSON 문자열로 저장하고 읽을 때 `JSON.parse`
 - 프로젝트 대표 이미지: `public/projects/*.jpg`(1200×675), DB `Project.image`에 `/projects/파일명.jpg`로 저장. 없으면 카드에 기본 헤더가 나온다
 
@@ -53,5 +54,6 @@ Next.js 16 (App Router) · TypeScript · Tailwind v4 · Prisma 6 · PostgreSQL �
 
 ## 확인 방법
 
-- `npx tsc --noEmit` 로 타입 확인, `npm run build` 로 빌드 확인, `npm run dev` 로 localhost:3000 확인 후 push
+- `npx tsc --noEmit` 로 타입 확인, `npm test` 로 테스트(vitest, DB 없이 돈다), `npm run build` 로 빌드 확인, `npm run dev` 로 localhost:3000 확인 후 push
+- GitHub Actions(`.github/workflows/ci.yml`)가 push마다 타입 검사·lint·테스트를 돌린다. 빌드는 DB가 필요해서 CI에 넣지 않았다
 - `<img>` 사용 부분은 `@next/next/no-img-element` 경고를 주석으로 끈 상태다(외부 최적화 없이 정적 파일을 그대로 쓰기 위함)

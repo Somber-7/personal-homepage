@@ -23,6 +23,10 @@
 - **관리자 화면은 설정 하나로**: 경력·교육·프로젝트·기술·자격증 다섯 화면을 따로 만들지 않고, 항목별 입력 칸 설정(`lib/admin-resources.ts`) 하나로 목록 표 · 추가 · 수정 페이지를 만든다.
 - **줄 단위 내용 입력**: 경력 설명과 프로젝트의 맡은 일 · 구현과 문제 해결 · 결과는 한 줄에 하나씩 입력하면 bullet로 보이고, `라벨: 내용` 형식이면 라벨이 굵게 나온다(`app/components/Bullets.tsx`). 비운 칸은 상세 페이지에 나오지 않는다.
 - **인증**: 모든 관리자 API가 세션을 확인하고, 비밀번호는 bcrypt 해시로만 저장한다. `/admin`과 `/api`는 `robots.txt`에서 검색을 막는다.
+- **입력 검증**: 관리자 API는 입력 칸 설정에서 만든 zod 스키마(`lib/admin-schema.ts`)로 본문을 검사한다. 설정에 없는 칸, 빠진 칸, 자료형·길이가 맞지 않는 값, http(s)가 아닌 주소는 저장하지 않고 400과 문제 칸을 돌려준다. 칸을 추가하면 검증도 따라온다.
+- **로그인 시도 제한**: 아이디별 · IP별로 15분 안에 5번 틀리면 15분 동안 로그인을 막는다(`lib/login-limit.ts`). 서버리스라 메모리 대신 DB(`LoginAttempt`)에 기록한다.
+- **보안 헤더**: 모든 페이지에 `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`를 붙인다(`next.config.ts`).
+- **테스트 · CI**: 입력 검증, 로그인 잠금 판정, 관리자 API 응답 코드(401 · 400 · 404 · 201)를 vitest로 확인하고, push마다 GitHub Actions에서 타입 검사 · lint · 테스트를 돌린다.
 
 ## 폴더 구조
 
@@ -35,17 +39,22 @@ app/
     login/                로그인
     (protected)/          로그인 후 화면 (세션 없으면 로그인으로)
       [resource]/         항목별 목록 표 · [id] 수정 · new 추가
-  api/admin/              관리자 API (저장 후 revalidatePath)
+  api/admin/[resource]/   관리자 API 하나로 다섯 항목 처리 (검증 → 저장 → revalidatePath)
   components/             공통 컴포넌트
   robots.ts, sitemap.ts
 lib/
   portfolio.ts            공개 페이지용 조회
   admin-resources.ts      관리자 입력 칸 설정
-  admin-data.ts           관리자용 조회
+  admin-schema.ts         입력 칸 설정 → zod 검증 스키마
+  admin-api.ts            관리자 API 공통 (세션 확인 · 본문 검사)
+  admin-data.ts           관리자용 조회 · 저장
+  login-limit.ts          로그인 시도 제한
   profile.ts              인적 사항 · 핵심 숫자 · 수상 (DB가 아닌 상수)
 prisma/
   schema.prisma
   seed.ts                 초기 데이터 (실행하면 기존 데이터를 지우고 다시 넣음)
+tests/                    vitest 테스트 (DB 없이 실행)
+.github/workflows/ci.yml  타입 검사 · lint · 테스트
 ```
 
 ## 로컬 실행
@@ -56,6 +65,7 @@ cp .env.example .env      # 값 채우기
 npx prisma db push        # 스키마 반영
 ADMIN_PASSWORD="10자 이상" npm run db:seed   # 초기 데이터 (기존 데이터 삭제 주의)
 npm run dev               # http://localhost:3000
+npm test                  # 테스트 (DB 연결 없이 돈다)
 ```
 
 필요한 환경변수: `DATABASE_URL`, `DIRECT_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL` (`.env.example` 참고).

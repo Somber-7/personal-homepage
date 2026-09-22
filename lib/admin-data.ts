@@ -30,3 +30,25 @@ export async function getRow(key: ResourceKey, id: number): Promise<Row | null> 
 export function emptyDetailCount(row: Row) {
   return ["work", "solution", "result"].filter((k) => !String(row[k] ?? "").trim()).length;
 }
+
+// 관리자 API 쓰기용. 항목마다 모델이 달라 최소한의 공통 모양으로 다룬다
+type Writable = {
+  create(args: { data: Record<string, unknown> }): Promise<Row>;
+  update(args: { where: { id: number }; data: Record<string, unknown> }): Promise<Row>;
+  delete(args: { where: { id: number } }): Promise<Row>;
+};
+
+function writable(key: ResourceKey): Writable {
+  const models = {
+    experiences: prisma.experience,
+    educations: prisma.education,
+    projects: prisma.project,
+    skills: prisma.skill,
+    certifications: prisma.certification,
+  };
+  return models[key] as unknown as Writable;
+}
+
+export const createRow = (key: ResourceKey, data: Record<string, unknown>) => writable(key).create({ data });
+export const updateRow = (key: ResourceKey, id: number, data: Record<string, unknown>) => writable(key).update({ where: { id }, data });
+export const deleteRow = (key: ResourceKey, id: number) => writable(key).delete({ where: { id } });

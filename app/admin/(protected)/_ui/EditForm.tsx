@@ -41,7 +41,15 @@ export default function EditForm({ resource, id, initial }: { resource: Resource
     });
     if (!res.ok) {
       setSaving(false);
-      setError(res.status === 401 ? "로그인이 풀렸습니다. 다시 로그인한 뒤 저장하세요." : `저장하지 못했습니다 (${res.status})`);
+      if (res.status === 401) {
+        setError("로그인이 풀렸습니다. 다시 로그인한 뒤 저장하세요.");
+        return;
+      }
+      // 검증 실패면 어느 칸이 문제인지 칸 이름으로 보여 준다
+      const body = (await res.json().catch(() => null)) as { error?: string; issues?: { path: string; message: string }[] } | null;
+      const label = (name: string) => fields.find((f) => f.name === name)?.label ?? name;
+      const detail = body?.issues?.map((i) => `${label(i.path)}: ${i.message}`).join(" / ");
+      setError(detail ? `저장하지 못했습니다 — ${detail}` : `저장하지 못했습니다 (${body?.error ?? res.status})`);
       return;
     }
     router.push(listHref);

@@ -8,6 +8,7 @@ export type Field = {
   hint?: string;
   wide?: boolean; // 두 칸 너비
   rows?: number;
+  required?: boolean; // 비우면 저장하지 않는다
 };
 
 export type Resource = { label: string; api: string; fields: Field[] };
@@ -19,7 +20,7 @@ export const RESOURCES = {
     label: "경력",
     api: "/api/admin/experiences",
     fields: [
-      { name: "company", label: "회사명" },
+      { name: "company", label: "회사명", required: true },
       { name: "role", label: "직책 · 역할" },
       { name: "period", label: "기간", hint: "예: 2020.01 ~ 2024.02" },
       { name: "duration", label: "근무 기간", hint: "예: 4년 2개월" },
@@ -33,7 +34,7 @@ export const RESOURCES = {
     label: "교육",
     api: "/api/admin/educations",
     fields: [
-      { name: "name", label: "기관명" },
+      { name: "name", label: "기관명", required: true },
       { name: "course", label: "과정" },
       { name: "period", label: "기간", hint: "예: 2026.03 ~ 2026.09" },
       { name: "duration", label: "기간 요약", hint: "예: 6개월, 졸업" },
@@ -46,7 +47,7 @@ export const RESOURCES = {
     label: "프로젝트",
     api: "/api/admin/projects",
     fields: [
-      { name: "title", label: "프로젝트명", wide: true },
+      { name: "title", label: "프로젝트명", wide: true, required: true },
       { name: "org", label: "소속", hint: "같은 값끼리 프로젝트 페이지에서 묶인다" },
       { name: "client", label: "구분", hint: "예: 한국전력공사 (6인)" },
       { name: "period", label: "기간", hint: "모르면 비워 둔다" },
@@ -66,7 +67,7 @@ export const RESOURCES = {
     label: "기술 스택",
     api: "/api/admin/skills",
     fields: [
-      { name: "category", label: "분야" },
+      { name: "category", label: "분야", required: true },
       { name: "order", label: "순서", kind: "number" },
       { name: "items", label: "항목", kind: "list", wide: true, hint: "쉼표로 구분" },
       { name: "isLearning", label: "AI 캠프 · 개인 프로젝트에서 쓴 기술 (끄면 실무)", kind: "checkbox" },
@@ -76,7 +77,7 @@ export const RESOURCES = {
     label: "자격증",
     api: "/api/admin/certifications",
     fields: [
-      { name: "name", label: "자격증명" },
+      { name: "name", label: "자격증명", required: true },
       { name: "org", label: "발급 기관" },
       { name: "year", label: "취득 시기", hint: "예: 2019.11" },
       { name: "order", label: "순서", kind: "number" },
@@ -87,7 +88,7 @@ export const RESOURCES = {
 export type ResourceKey = keyof typeof RESOURCES;
 
 export function isResourceKey(key: string): key is ResourceKey {
-  return key in RESOURCES;
+  return Object.hasOwn(RESOURCES, key); // in 은 constructor 같은 상속 이름도 통과시킨다
 }
 
 // DB 한 행 → 입력 칸 값 (list는 JSON 문자열을 쉼표 문자열로)

@@ -15,6 +15,16 @@ model Admin {
   createdAt DateTime @default(now())
 }
 
+// 관리자 로그인 시도 기록. 아이디·IP별로 짧은 시간 안에 여러 번 실패하면 잠시 막는다(lib/login-limit.ts)
+model LoginAttempt {
+  id        Int      @id @default(autoincrement())
+  key       String // "user:아이디" 또는 "ip:주소"
+  success   Boolean
+  createdAt DateTime @default(now())
+
+  @@index([key, createdAt])
+}
+
 model Experience {
   id        Int      @id @default(autoincrement())
   period    String
