@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { getCertifications, getEducations, getExperiences, getProjects, getSkills, groupByOrg, type Project } from "@/lib/portfolio";
-import { AWARDS, CAREER_GAP, PROFILE, STATS, STRENGTHS } from "@/lib/profile";
+import { ACTIVITIES, AWARDS, CAREER_GAP, PROFILE, STATS, STRENGTHS } from "@/lib/profile";
 import Bullets from "../components/Bullets";
 import { ProjectCover } from "../components/ProjectCard";
 import { Tag } from "../components/ui";
@@ -87,10 +87,13 @@ export default async function Home() {
         </div>
       </Section>
 
-      <Section id="certifications" title="자격증 · 수상">
+      <Section id="certifications" title="자격증 · 수상 · 활동">
         <div className="grid md:grid-cols-2 gap-x-12">
           <ItemList title="자격증" rows={certifications.map((c) => ({ key: `c${c.id}`, year: c.year, name: c.name, org: c.org }))} />
-          <ItemList title="수상" rows={AWARDS.map((a, i) => ({ key: `a${i}`, year: a.year, name: a.name, org: a.org }))} />
+          <div>
+            <ItemList title="수상" rows={AWARDS.map((a, i) => ({ key: `a${i}`, year: a.year, name: a.name, org: a.org }))} />
+            <ItemList title="활동" rows={ACTIVITIES.map((a, i) => ({ key: `v${i}`, year: a.year, name: a.name, org: a.org }))} />
+          </div>
         </div>
       </Section>
     </>
@@ -203,12 +206,14 @@ function FeaturedProject({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.id}`}
-      className="card-lift group grid md:grid-cols-[280px_1fr] gap-5 p-4 rounded-lg"
+      className={`card-lift group grid gap-5 p-4 rounded-lg ${project.image ? "md:grid-cols-[280px_1fr]" : ""}`}
       style={{ border: "1px solid var(--border)" }}
     >
-      <div className="aspect-video overflow-hidden rounded" style={{ background: "var(--surface2)" }}>
-        <ProjectCover project={project} />
-      </div>
+      {project.image && (
+        <div className="aspect-video overflow-hidden rounded" style={{ background: "var(--surface2)" }}>
+          <ProjectCover project={project} />
+        </div>
+      )}
       <div className="flex flex-col gap-2 min-w-0">
         <span className="text-sm" style={{ color: "var(--accent)" }}>{project.org}</span>
         <h3 className="text-xl font-bold leading-snug transition-colors group-hover:text-[var(--accent)]" style={{ color: "var(--foreground)" }}>

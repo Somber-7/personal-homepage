@@ -76,9 +76,11 @@ export default async function ProjectDetailPage({ params }: Params) {
           )}
         </div>
 
-        <div className={`hero-in mt-10 overflow-hidden rounded-lg ${project.image ? "aspect-video" : "h-40 md:h-48"}`} style={{ border: "1px solid var(--border)", background: "var(--surface2)", ...d(260) }}>
-          <ProjectCover project={project} large />
-        </div>
+        {project.image && (
+          <div className="hero-in mt-10 overflow-hidden rounded-lg aspect-video" style={{ border: "1px solid var(--border)", background: "var(--surface2)", ...d(260) }}>
+            <ProjectCover project={project} large />
+          </div>
+        )}
 
         <div className="mt-14 grid md:grid-cols-[1fr_280px] gap-12">
           <div className="space-y-12">
