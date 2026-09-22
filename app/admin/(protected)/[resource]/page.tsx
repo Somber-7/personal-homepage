@@ -52,7 +52,7 @@ const COLUMNS: Record<ResourceKey, { name: string; nameLabel: string; columns: C
     nameLabel: "분야",
     columns: [
       { label: "항목 수", cell: (r) => `${count(r.items)}개`, width: "80px" },
-      { label: "학습 중", cell: (r) => (r.isLearning ? "예" : <Dash />), width: "72px" },
+      { label: "구분", cell: (r) => (r.isLearning ? "AI 캠프 · 개인" : "실무"), width: "110px" },
     ],
   },
   certifications: {

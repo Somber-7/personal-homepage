@@ -68,16 +68,11 @@ export default async function ProjectDetailPage({ params }: Params) {
           <p className="hero-in mt-4 text-base" style={{ color: "var(--muted)", ...d(180) }}>
             {[project.client, project.period].filter(Boolean).join(" · ")}
           </p>
-          {project.link && (
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-in group mt-6 inline-flex items-center gap-1.5 px-5 py-2.5 rounded-md text-sm font-medium transition-opacity duration-200 hover:opacity-85"
-              style={{ background: "var(--foreground)", color: "var(--background)", ...d(220) }}
-            >
-              사이트 방문 <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
-            </a>
+          {(project.link || project.repo) && (
+            <div className="hero-in mt-6 flex flex-wrap gap-3" style={d(220)}>
+              {project.link && <ExternalButton href={project.link} primary>사이트 방문</ExternalButton>}
+              {project.repo && <ExternalButton href={project.repo} primary={!project.link}>코드 보기</ExternalButton>}
+            </div>
           )}
         </div>
 
@@ -143,5 +138,19 @@ function Neighbor({ project, dir }: { project: { id: number; title: string; org:
       </span>
       <span className="text-sm" style={{ color: "var(--muted)" }}>{project.org}</span>
     </Link>
+  );
+}
+
+function ExternalButton({ href, primary, children }: { href: string; primary?: boolean; children: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group inline-flex items-center gap-1.5 px-5 py-2.5 rounded-md text-sm font-medium transition-opacity duration-200 hover:opacity-85"
+      style={primary ? { background: "var(--foreground)", color: "var(--background)" } : { border: "1px solid var(--border)", color: "var(--foreground)" }}
+    >
+      {children} <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+    </a>
   );
 }

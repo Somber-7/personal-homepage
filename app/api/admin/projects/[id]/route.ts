@@ -28,6 +28,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       role: body.role,
       image: body.image ? String(body.image).trim() : null,
       link: body.link ? String(body.link).trim() : null,
+      repo: body.repo ? String(body.repo).trim() : null,
       tags: JSON.stringify(body.tags ?? []),
       order: body.order ?? 0,
     },

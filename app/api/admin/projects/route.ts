@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
       role: body.role,
       image: body.image ? String(body.image).trim() : null,
       link: body.link ? String(body.link).trim() : null,
+      repo: body.repo ? String(body.repo).trim() : null,
       tags: JSON.stringify(body.tags ?? []),
       order: body.order ?? 0,
     },

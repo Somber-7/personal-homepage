@@ -69,19 +69,27 @@ export default async function Home() {
       </Section>
 
       <Section id="skills" title="기술">
-        <dl>
-          {skills.map((g) => (
-            <div key={g.id} className="py-4 grid md:grid-cols-[180px_1fr] gap-2 md:gap-10" style={{ borderBottom: "1px solid var(--border)" }}>
-              <dt className="text-base font-semibold" style={{ color: "var(--foreground)" }}>
-                {g.category}
-                {g.isLearning && <span className="ml-2 text-xs font-medium" style={{ color: "var(--accent)" }}>학습 중</span>}
-              </dt>
-              <dd className="flex flex-wrap gap-1.5">
-                {g.items.map((t) => <Tag key={t}>{t}</Tag>)}
-              </dd>
+        {/* isLearning이 켜진 분야는 AI 캠프·개인 프로젝트에서 쓴 기술, 꺼진 분야는 실무에서 운영한 기술 */}
+        <div className="grid md:grid-cols-2 gap-x-12">
+          {[
+            { title: "실무", groups: skills.filter((g) => !g.isLearning) },
+            { title: "AI 캠프 · 개인 프로젝트", groups: skills.filter((g) => g.isLearning) },
+          ].map((col) => (
+            <div key={col.title} className="pt-8">
+              <h3 className="text-base font-bold mb-2" style={{ color: "var(--foreground)" }}>{col.title}</h3>
+              <dl>
+                {col.groups.map((g) => (
+                  <div key={g.id} className="py-3 grid grid-cols-[112px_1fr] gap-3" style={{ borderBottom: "1px solid var(--border)" }}>
+                    <dt className="text-sm font-semibold pt-0.5" style={{ color: "var(--foreground)" }}>{g.category}</dt>
+                    <dd className="flex flex-wrap gap-1.5">
+                      {g.items.map((t) => <Tag key={t}>{t}</Tag>)}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           ))}
-        </dl>
+        </div>
       </Section>
 
       <Section id="certifications" title="자격증 · 수상">

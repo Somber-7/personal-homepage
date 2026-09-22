@@ -16,6 +16,9 @@ Next.js 16 (App Router) · TypeScript · Tailwind v4 · Prisma 6 · PostgreSQL �
 
 - 공개 페이지: `app/(site)/` 아래 `/`(홈 = 한 페이지 이력서: 머리·핵심 역량·경력·교육·대표 프로젝트·기술·자격증·수상), `/projects`, `/projects/[id]`. 예전 `/about`·`/career`는 `next.config.ts`에서 홈 위치로 넘긴다. DB 조회는 `lib/portfolio.ts`, 공통 컴포넌트는 `app/components/`
 - 인적 사항·핵심 숫자·핵심 역량·수상은 DB가 아니라 `lib/profile.ts`에 있다
+- 기술 스택의 `isLearning`은 뜻이 바뀌었다: `false` = 실무에서 운영한 기술, `true` = AI 캠프·개인 프로젝트에서 쓴 기술. 홈에서 두 묶음으로 나뉘어 나온다
+- 프로젝트 `repo`(공개 저장소 주소)가 있으면 상세 페이지에 '코드 보기' 버튼이 나온다. 팀 저장소 기여는 `work` 첫 줄에 "기여: 본인 커밋 N건 (전체 M건)"으로 적는다(git log 기준)
+- `robots.ts`는 /admin·/api를 막고, `sitemap.ts`는 홈·프로젝트 목록·상세를 DB에서 만든다
 - 경력·교육의 `desc`와 프로젝트의 `work`·`solution`·`result`는 한 줄에 하나씩 bullet로 나온다(`app/components/Bullets.tsx`, "라벨: 내용"이면 라벨이 굵게). 프로젝트 세 칸 중 비운 칸은 상세 페이지에 나오지 않는다
 - 경력기술서 PDF는 `public/career-imjun.pdf`로 내려받는다. `D:\SKN_AI_Bootcamp\포트폴리오\경력기술서_임준.pdf`를 다시 만들면 이 파일도 덮어쓴다
 - 공개 페이지는 빌드 때 정적으로 만들어진다. 관리자 API는 저장 후 `revalidatePath("/", "layout")`으로 전체를 갱신하므로, 새 관리자 API를 만들면 이 호출을 꼭 넣는다

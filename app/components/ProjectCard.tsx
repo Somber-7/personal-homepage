@@ -2,7 +2,8 @@ import Link from "next/link";
 import type { Project } from "@/lib/portfolio";
 import { Tag } from "./ui";
 
-// 이미지가 없을 때 쓰는 기본 헤더. small은 작은 썸네일용으로 시작 연도만 둔다
+// 이미지가 없을 때 쓰는 글자 헤더: 제목을 되풀이하지 않고 발주처(구분에서 인원 표기는 뺌)와 기간을 보여 준다.
+// small은 작은 썸네일용으로 시작 연도만 둔다
 export function ProjectCover({ project, large = false, small = false }: { project: Project; large?: boolean; small?: boolean }) {
   if (project.image) {
     return (
@@ -22,10 +23,12 @@ export function ProjectCover({ project, large = false, small = false }: { projec
       </div>
     );
   }
+  const client = project.client.replace(/\s*\([^)]*\)\s*$/, "") || project.org;
   return (
-    <div className={`w-full h-full flex flex-col justify-end ${large ? "p-8" : "p-5"}`} style={{ background: "var(--surface2)" }}>
-      <span className={`font-semibold leading-snug ${large ? "text-2xl" : "text-lg"}`} style={{ color: "var(--muted)" }}>
-        {project.title}
+    <div className={`w-full h-full flex flex-col justify-between ${large ? "p-8" : "p-5"}`} style={{ background: "var(--surface)" }}>
+      <span className="text-xs font-mono" style={{ color: "var(--muted)" }}>{project.period}</span>
+      <span className={`font-bold leading-snug tracking-tight ${large ? "text-3xl" : "text-xl"}`} style={{ color: "var(--foreground)", opacity: 0.8 }}>
+        {client}
       </span>
     </div>
   );

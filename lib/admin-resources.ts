@@ -52,6 +52,7 @@ export const RESOURCES = {
       { name: "period", label: "기간", hint: "모르면 비워 둔다" },
       { name: "role", label: "역할" },
       { name: "link", label: "사이트 주소", hint: "비우면 '사이트 방문' 버튼 없음" },
+      { name: "repo", label: "저장소 주소", hint: "공개 GitHub 주소 · 비우면 '코드 보기' 버튼 없음" },
       { name: "order", label: "순서", kind: "number" },
       { name: "image", label: "대표 이미지 경로", wide: true, hint: "예: /projects/halil.jpg · 비우면 기본 헤더" },
       { name: "tags", label: "기술 태그", kind: "list", wide: true, hint: "쉼표로 구분" },
@@ -68,7 +69,7 @@ export const RESOURCES = {
       { name: "category", label: "분야" },
       { name: "order", label: "순서", kind: "number" },
       { name: "items", label: "항목", kind: "list", wide: true, hint: "쉼표로 구분" },
-      { name: "isLearning", label: "학습 중", kind: "checkbox" },
+      { name: "isLearning", label: "AI 캠프 · 개인 프로젝트에서 쓴 기술 (끄면 실무)", kind: "checkbox" },
     ],
   },
   certifications: {
