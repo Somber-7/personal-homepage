@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import { getCertifications, getEducations, getExperiences, getProjects, getSkills, groupByOrg, type Project } from "@/lib/portfolio";
-import { ACTIVITIES, AWARDS, CAREER_GAP, PROFILE, STATS, STRENGTHS } from "@/lib/profile";
+import { ACTIVITIES, AWARDS, PROFILE, STATS, STRENGTHS } from "@/lib/profile";
 import Bullets from "../components/Bullets";
 import { ProjectCover } from "../components/ProjectCard";
 import { Tag } from "../components/ui";
@@ -36,11 +36,9 @@ export default async function Home() {
       </Section>
 
       <Section id="experience" title="경력" aside="총 5년 4개월">
-        {/* 회사 경력과 공백 기간을 시작 시점 최신순으로 */}
-        {[
-          ...experiences.map((e) => ({ key: `e${e.id}`, period: e.period, duration: e.duration, title: e.company, sub: e.role, body: e.desc, tags: e.tags, current: e.isCurrent })),
-          { key: "gap", ...CAREER_GAP, sub: "", body: CAREER_GAP.desc, tags: [] as string[], current: false },
-        ]
+        {/* 시작 시점 최신순 */}
+        {experiences
+          .map((e) => ({ key: `e${e.id}`, period: e.period, duration: e.duration, title: e.company, sub: e.role, body: e.desc, tags: e.tags, current: e.isCurrent }))
           .sort((a, b) => b.period.localeCompare(a.period))
           .map(({ key, ...e }) => <Entry key={key} {...e} />)}
       </Section>

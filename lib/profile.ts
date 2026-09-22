@@ -30,11 +30,3 @@ export const AWARDS = [
 export const ACTIVITIES = [
   { year: "2026", name: "제8회 K-디지털 트레이닝 해커톤", org: "6인 팀원으로 참가 · 예선" },
 ];
-
-// 그리드텍 퇴사와 쓰리애니 입사 사이. 홈 경력 목록에 기간 순으로 끼워 넣는다
-export const CAREER_GAP = {
-  period: "2024.03 ~ 2025.01",
-  duration: "11개월",
-  title: "휴식 · 이직 준비",
-  desc: "장기 파견 뒤 건강 회복 (3개월)\n이직 준비, 서울로 이주",
-};

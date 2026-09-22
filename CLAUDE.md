@@ -15,7 +15,7 @@
 Next.js 16 (App Router) · TypeScript · Tailwind v4 · Prisma 6 · PostgreSQL · NextAuth v4 (Credentials, JWT, bcrypt)
 
 - 공개 페이지: `app/(site)/` 아래 `/`(홈 = 한 페이지 이력서: 머리·핵심 역량·경력·교육·대표 프로젝트·기술·자격증·수상), `/projects`, `/projects/[id]`. 예전 `/about`·`/career`는 `next.config.ts`에서 홈 위치로 넘긴다. DB 조회는 `lib/portfolio.ts`, 공통 컴포넌트는 `app/components/`
-- 인적 사항·핵심 숫자·핵심 역량·수상·활동·경력 공백 설명은 DB가 아니라 `lib/profile.ts`에 있다
+- 인적 사항·핵심 숫자·핵심 역량·수상·활동은 DB가 아니라 `lib/profile.ts`에 있다
 - 기술 스택의 `isLearning`은 뜻이 바뀌었다: `false` = 실무에서 운영한 기술, `true` = AI 캠프·개인 프로젝트에서 쓴 기술. 홈에서 두 묶음으로 나뉘어 나온다
 - 프로젝트 `repo`(공개 저장소 주소)가 있으면 상세 페이지에 '코드 보기' 버튼이 나온다. 커밋 수는 적지 않는다(외부 평가에서 "커밋을 쪼갰나" 의심을 산다). 이미지가 없는 프로젝트는 카드·상세에 이미지 칸 자체를 두지 않는다
 - `robots.ts`는 /admin·/api를 막고, `sitemap.ts`는 홈·프로젝트 목록·상세를 DB에서 만든다
